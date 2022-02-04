@@ -1,0 +1,50 @@
+﻿@model Helperland.Models.User
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_RegisterLayout.cshtml";
+
+}    
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+          aria-labelledby="staticBackdropLable" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 class="logHeader ms-3">Login to your account</h4>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <img src="/assets/close.png">
+                </button>
+            </div>
+            <form asp-action="Login" asp-controller="Home">
+                <div class="form-log mb-3 mt-3">
+                    <input asp-for="Email" type="email" class="login-form form-control" id="pwd" placeholder="Email" name="email">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                    <img src="/assets/user_1.png" class="logImg">
+                </div>
+                <div class="form-log mb-3">
+                    <input asp-for="Password" type="password" class="login-form form-control" id="pwd" placeholder="Password" name="password">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <img src="/assets/lock.png" class="logImg1">
+                </div>
+                <div class="form-log mb-3">
+                    <input type="checkbox" value="isRemeberMe" id="rememberMe">
+                    <label for="rememberMe">Remember me</label>
+                </div>
+                <div class="form-log mb-3">
+                    <button type="submit" class="loginBtn">Login</button>
+                </div>
+            </form>
+            <div class="text_center mb-1">
+                <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#ForgetModal">
+                    Forget
+                    Password?
+                </a>
+            </div>
+            <div class="text_center">
+                Don't have an account?<a asp-action="Register" asp-controller="Home" class="ms-1">
+                    Create an
+                    <br>account
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
