@@ -1,0 +1,696 @@
+﻿
+
+@model DashboardViewModel
+
+@{
+    ViewBag.Title = "Service History";
+    Layout = "_CustomerLayout";
+    var i = -1;
+}
+
+
+<section class="service-section">
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="content">
+            <input type="radio" name="slider" checked id="dashboard" style="display: none;">
+            <input type="radio" name="slider" id="service-history" style="display: none;">
+            <input type="radio" name="slider" id="service-schedule" style="display: none;">
+            <input type="radio" name="slider" id="favourite-pros" style="display: none;">
+            <input type="radio" name="slider" id="invoices" style="display: none;">
+            <input type="radio" name="slider" id="notifications" style="display: none;">
+            <div class="list">
+                <label for="dashboard" class="dashboard">
+                    <span class="title">Dashboard</span>
+                </label>
+                <label for="service-history" class="service-history">
+                    <span class="title">Service History</span>
+                </label>
+                <label for="service-schedule" class="service-schedule">
+                    <span class="title">Service Schedule</span>
+                </label>
+                <label for="favourite-pros" class="favourite-pros">
+                    <span class="title">Favourite Pros</span>
+                </label>
+                <label for="invoices" class="invoices">
+                    <span class="title">Invoices</span>
+                </label>
+                <label for="notifications" class="notifications">
+                    <span class="title">Notifications</span>
+                </label>
+
+                <div class="slider"></div>
+            </div>
+
+            <div class="text-content">
+                <div class="dashboard text">
+                    <span class="service-header">Current Service Requests</span>
+                    <span class="export">Add New Service Request</span>
+                    <div id="resscheduleMsg"></div>
+                    <table class="table" id="Data">
+                        <thead>
+                            <tr class="table-heading">
+                                <th scope="col">Service Id</th>
+                                <th scope="col">Service Date</th>
+                                <th scope="col">Service Provider</th>
+                                <th scope="col">Payment</th>
+                                <th scope="col" class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @*@if (Model.services.Count() != 0)
+                                {*@
+                            @foreach (var x in Model.services)
+                            {
+                                i += 1;
+
+                                @if (x.Status == null)
+                                {
+                                    <tr data-bs-toggle="modal" data-bs-target="#row1" id="service">
+                                        <td>@x.ServiceId</td>
+                                        <td>
+                                            <span>
+                                                <img src="/assets/calendar2.png" alt="Sort">
+                                                <b>@String.Format("{0:dd/MM/yyyy}", x.ServiceStartDate)</b>
+                                            </span>
+                                            <br>
+                                            <span>
+                                                <img src="/assets/layer-14.png" alt="Sort">
+                                                @x.ServiceStartDate.ToString("HH:mm") -
+                                                @Model.serviceEnd[i].ToString("HH:mm")
+                                            </span>
+
+                                        </td>
+                                        <td class="rating">
+                                            @if (x.ServiceProviderId != null)
+                                            {
+                                                <div class="rating d-flex">
+                                                    <img class="image4" src="~/image/cap.png" alt="Sort">
+                                                    <div class="r-details d-flex flex-column">
+                                                        <p>@Model.spName[i]</p>
+                                                        <div class="star d-flex">
+                                                            <img src="~/assets/star1.png" alt="">
+                                                            <img src="~/assets/star1.png" alt="">
+                                                            <img src="~/assets/star1.png" alt="">
+                                                            <img src="~/assets/star1.png" alt="">
+                                                            <img src="~/assets/star1.png" alt="">
+                                                            <img src="~/assets/star1.png" alt="">
+                                                            <p>4</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </td>
+                                        <td class="euro" id="Price">
+                                            @x.TotalCost &euro;
+                                        </td>
+                                        <td class="button">
+
+                                            <button class="btn btn-primary export" data-bs-toggle="modal"
+                                                    data-bs-target="#Reschedule" id="reschedule_@x.ServiceId">
+                                                Reschedule
+                                            </button>
+                                            <button class="btn btn-danger export1" data-bs-toggle="modal"
+                                                    data-bs-target="#Cancle" id="cancel_@x.ServiceId">
+                                                Cancelled
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+
+                                }
+                            }
+
+                            @*}*@
+
+
+
+                            <div class="modal fade" id="row1" data-bs-backdrop="static" data-bs-keyboard="false"
+                                 tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Service Details </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>05/10/2022</p>
+                                            <p>Duration: 3.5 Hrs</p>
+                                            <hr>
+                                            <p>Service Id: 8485</p>
+                                            <p>Extras: Inside Cabinets</p>
+                                            <p>Net Amount:</p>
+                                            <hr>
+                                            <p>Service Address:</p>
+                                            <p>Building Address:</p>
+                                            <p>Phone:</p>
+                                            <p>Email:</p>
+                                            <hr>
+                                            <p>Comments:</p>
+                                            <hr>
+
+                                        </div>
+                                        <div class="modal-footer">
+
+                                            <button class="btn btn-primary export" data-bs-toggle="modal"
+                                                    data-bs-target="#Reschedule">
+                                                Reschedule
+                                            </button>
+                                            <button class="btn btn-danger export1" data-bs-toggle="modal"
+                                                    data-bs-target="#Cancle">
+                                                Cancelled
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="Reschedule" data-bs-backdrop="static"
+                                 data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Reschedule Service Request </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <form>
+                                            <div class="modal-body">
+                                                <p>Select New Date & Time</p>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <input asp-for="@Model.serviceReschedule.serviceDate" class="form-control" placeholder="Date">
+                                                        <span id="sDate" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="mb-3">
+                                                            <div class="dropdown">
+                                                                <select asp-for="@Model.serviceReschedule.serviceTime" class="button">
+                                                                    <option value="8" selected>8:00</option>
+                                                                    <option value="8.5">8:30</option>
+                                                                    <option value="9">9:00</option>
+                                                                    <option value="9.5">9:30</option>
+                                                                    <option value="10">10:00</option>
+                                                                    <option value="10.5">10:30</option>
+                                                                    <option value="11">11:00</option>
+                                                                    <option value="11.5">11:30</option>
+                                                                    <option value="12">12:00</option>
+                                                                    <option value="12.5">12:30</option>
+                                                                    <option value="13">13:00</option>
+                                                                    <option value="13.5">13:30</option>
+                                                                    <option value="14">14:00</option>
+                                                                    <option value="14.5">14:30</option>
+                                                                    <option value="15">15:00</option>
+                                                                    <option value="15.5">15:30</option>
+                                                                    <option value="16">16:00</option>
+                                                                    <option value="16.5">16:30</option>
+                                                                    <option value="17">17:00</option>
+                                                                    <option value="17.5">17:30</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <button class="btn btn-primary export m-3" id="updateTime">
+                                                Update
+                                            </button>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="Cancle" data-bs-backdrop="static" data-bs-keyboard="false"
+                                 tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Cancle Service Request </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Why you want to cancle the service request</p>
+                                            <div class="form-floating">
+                                                <textarea asp-for="@Model.cancelService.Reason" type="text" class="form-control" rows="4"></textarea>
+
+                                            </div>
+
+                                        </div>
+                                        <button class="btn btn-primary export m-3" id="cancle">
+                                            Cancle Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </tbody>
+                    </table>
+                    <div class="d-flex flex-row">
+                        <div class="show">Show</div>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary button-dd dropdown-toggle" type="button"
+                                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                10
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="#">20</a></li>
+                                <li><a class="dropdown-item" href="#">30</a></li>
+                                <li><a class="dropdown-item" href="#">40</a></li>
+                                <li><a class="dropdown-item" href="#">50</a></li>
+                                <li><a class="dropdown-item" href="#">55</a></li>
+                            </ul>
+                        </div>
+                        <span class="show">entries</span>
+                        <span class="show">Total Record: 55</span>
+                        <div class="d-flex justify-content-end">
+                            <a href="#"><i class="fa fa-step-backward chng-arw"></i></a>
+                            <a href="#"><i class="fa fa-angle-left chng-arw"></i></a>
+                            <span class="chng-num"><a href="#">1</a></span>
+                            <span class="chng-num"><a href="#">2</a></span>
+                            <span class="chng-num"><a href="#">3</a></span>
+                            <span class="chng-num"><a href="#">4</a></span>
+                            <a href="#"><i class="fa fa-angle-right chng-arw"></i></a>
+                            <a href="#"><i class="fa fa-step-forward chng-arw"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="service-history text">
+                    <span class="service-header">Service History</span>
+                    <button class="sh_export_btn export">Export</button>
+                    <table class="table" id="Data">
+                        <thead>
+                            <tr class="table-heading">
+                                <th scope="col">Service Id</th>
+                                <th scope="col">Service Date</th>
+                                <th scope="col">Service Provider</th>
+                                <th scope="col">Payment</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Rate SP </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var x in Model.services)
+                            {
+                                i += 1;
+                                @if (x.Status != null && x.Status != 0)
+                                {
+                                    <tr id="service">
+                                        <td>@x.ServiceId</td>
+                                        <td class="table-item-2">
+                                            <span>
+                                                <img src="~/assets/calendar2.png" alt="Sort">
+                                                <b>@String.Format("{0:dd/MM/yyyy}", x.ServiceStartDate)</b>
+                                            </span>
+                                            <br>
+                                            <span>
+                                                <img src="~/assets/layer-14.png" alt="Sort">
+                                                @x.ServiceStartDate.ToString("HH:mm") -
+                                                @Model.serviceEnd[i].ToString("HH:mm")
+                                            </span>
+                                        </td>
+
+                                        <td class="rating">
+                                            @if (x.ServiceProviderId != null)
+                                            {
+                                                <div class="rating d-flex">
+                                                    <img class="image4" src="~/assets/cap.png" alt="Sort">
+                                                    <div class="r-details d-flex flex-column">
+                                                        <p>@Model.spName[i]</p>
+                                                        <div class="star d-flex">
+                                                            <img src="~/assets/star1.png" alt="">
+                                                            <img src="~/assets/star1.png" alt="">
+                                                            <img src="~/assets/star1.png" alt="">
+                                                            <img src="~/assets/star1.png" alt="">
+                                                            <img src="~/assets/star1.png" alt="">
+                                                            @if (Model.rate[i] != 0)
+                                                            {
+                                                                <p>@Model.rate[i]</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p>4</p>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </td>
+
+                                        <td>
+                                            <span id="Price" class="euro"><p>@x.TotalCost &euro;</p></span>
+                                        </td>
+                                        <td class="button table-btn-2 text-center">
+                                            @if (x.Status == 1)
+                                            {
+                                                <button class="btn btn-primary completed">
+                                                    <a href="#">Completed</a>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-primary cancelled">
+                                                    <a href="#">Cancelled</a>
+                                                </button>
+                                            }
+                                        </td>
+                                        <td class="button table-btn text-center">
+                                            @if (x.Status == 1)
+                                            {
+                                                <button class="btn btn-primary rate-sp" data-bs-toggle="modal"
+                                                      data-bs-target="#rateSp" id="rate_@x.ServiceRequestId">Rate SP</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="rate-sp" disabled>Rate SP</button>
+                                            }
+                                        </td>
+                                    </tr>
+
+                                }
+
+                            }
+                           
+                            <div class="modal fade" id="rateSp" data-bs-backdrop="static" data-bs-keyboard="false"
+                                 tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">
+                                                <img src="/assets/avatar-hat.png">
+                                                Sandip Patel
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+
+                                        </div>
+
+                                        <div class="rating">
+                                            <div class="rating d-flex">
+                                                <img class="image4" src="~/assets/cap.png" alt="Sort">
+                                                <div class="r-details d-flex flex-column">
+                                                    <p class="mb-1 text-start">John Doe</p>
+                                                    <div class="star d-flex">
+                                                        <img id="1" src="~/assets/star2.png" alt="">
+                                                        <img id="2" src="~/assets/star2.png" alt="">
+                                                        <img id="3" src="~/assets/star2.png" alt="">
+                                                        <img id="4" src="~/assets/star2.png" alt="">
+                                                        <img id="5" src="~/assets/star2.png" alt="">
+                                                        <p id="totalRate">0</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h5 class="m-3">Rate your service provider</h5>
+                                        <div class="modal-body">
+                                            <div id="OnTime" class="rating-star star d-flex">
+                                                <img id="star1" name="2" src="~/assets/star2.png" alt="">
+                                                <img id="star2" name="2" src="~/assets/star2.png" alt="">
+                                                <img id="star3" name="2" src="~/assets/star2.png" alt="">
+                                                <img id="star4" name="2" src="~/assets/star2.png" alt="">
+                                                <img id="star5" name="2" src="~/assets/star2.png" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <p>Friendly</p>
+                                            <div id="friendly" class="rating-star rating-star-1 star d-flex">
+                                                <img id="star1" name="2" src="~/assets/star2.png" alt="">
+                                                <img id="star2" name="2" src="~/assets/star2.png" alt="">
+                                                <img id="star3" name="2" src="~/assets/star2.png" alt="">
+                                                <img id="star4" name="2" src="~/assets/star2.png" alt="">
+                                                <img id="star5" name="2" src="~/assets/star2.png" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <p>Quality of service</p>
+                                            <div id="quality" class="rating-star rating-star-2 star d-flex">
+                                                <img id="star1" name="2" src="~/assets/star2.png" alt="">
+                                                <img id="star2" name="2" src="~/assets/star2.png" alt="">
+                                                <img id="star3" name="2" src="~/assets/star2.png" alt="">
+                                                <img id="star4" name="2" src="~/assets/star2.png" alt="">
+                                                <img id="star5" name="2" src="~/assets/star2.png" alt="">
+                                            </div>
+                                        </div>
+                                        <p>Feedback on service provider</p>
+                                        <div class="form-floating">
+                                            <textarea id="cmt" type="text" class="form-control" rows="2"></textarea>
+
+                                        </div>
+
+                                    </div>
+                                        <div class="modal-footer">
+
+                                            <button class="btn btn-primary export" data-bs-toggle="modal"
+                                                    data-bs-target="#Reschedule" id="SaveRatting">
+                                                Submit
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+                             </div>
+                            
+
+                       
+                    </table>
+                    <div class="d-flex flex-row">
+                        <div class="show">Show</div>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary button-dd dropdown-toggle" type="button"
+                                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                10
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="#">20</a></li>
+                                <li><a class="dropdown-item" href="#">30</a></li>
+                                <li><a class="dropdown-item" href="#">40</a></li>
+                                <li><a class="dropdown-item" href="#">50</a></li>
+                                <li><a class="dropdown-item" href="#">55</a></li>
+                            </ul>
+                        </div>
+                        <span class="show">entries</span>
+                        <span class="show">Total Record: 55</span>
+                        <div class="d-flex justify-content-end">
+                            <a href="#"><i class="fa fa-step-backward chng-arw"></i></a>
+                            <a href="#"><i class="fa fa-angle-left chng-arw"></i></a>
+                            <span class="chng-num"><a href="#">1</a></span>
+                            <span class="chng-num"><a href="#">2</a></span>
+                            <span class="chng-num"><a href="#">3</a></span>
+                            <span class="chng-num"><a href="#">4</a></span>
+                            <a href="#"><i class="fa fa-angle-right chng-arw"></i></a>
+                            <a href="#"><i class="fa fa-step-forward chng-arw"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function(){
+            var x =[0,0,0];
+            var p = 0;
+            let sId = 0;
+            function mainRating(){
+                var b = parseInt($('#totalRate').text());
+                console.log(b);
+                if(b <= 1)
+                {
+                    $('#1').attr('src','./assets/star1.png');
+                    $('#2').attr('src','./assets/star2.png');
+                    $('#3').attr('src','./assets/star2.png');
+                    $('#4').attr('src','./assets/star2.png');
+                    $('#5').attr('src','./assets/star2.png');
+                }
+                else if(b <= 2)
+                {
+                    $('#1').attr('src','./assets/star1.png');
+                    $('#2').attr('src','./assets/star1.png');
+                    $('#3').attr('src','./assets/star2.png');
+                    $('#4').attr('src','./assets/star2.png');
+                    $('#5').attr('src','./assets/star2.png');
+                }
+                else if(b <= 3)
+                {
+                    $('#1').attr('src','./assets/star1.png');
+                    $('#2').attr('src','./assets/star1.png');
+                    $('#3').attr('src','./assets/star1.png');
+                    $('#4').attr('src','./assets/star2.png');
+                    $('#5').attr('src','./assets/star2.png');
+                }
+                else if(b <= 4)
+                {
+                    $('#1').attr('src','./assets/star1.png');
+                    $('#2').attr('src','./assets/star1.png');
+                    $('#3').attr('src','./assets/star1.png');
+                    $('#4').attr('src','./assets/star1.png');
+                    $('#5').attr('src','./assets/star2.png');
+                }
+                else if(b <= 5)
+                {
+                    $('#1').attr('src','./assets/star1.png');
+                    $('#2').attr('src','./assets/star1.png');
+                    $('#3').attr('src','./assets/star1.png');
+                    $('#4').attr('src','./assets/star1.png');
+                    $('#5').attr('src','./assets/star1.png');
+                }
+            };
+
+            $('#OnTime').click(function(){
+                rating($(this),0);
+            });
+
+            $('#friendly').click(function(){
+                rating($(this),1);
+            });
+
+            $('#quality').click(function(){
+                rating($(this),2);
+            });
+
+            function rating(a,i)
+            {
+                $('#star1',a).click(function(){
+                    if($(this).attr('name') == 2)
+                    {
+                        $('#star1',a).attr('src','./assets/star1.png');
+                        $(this).attr('name','1');
+                        x[i]+=1;
+                    }
+                    else
+                    {
+                        $('#star1', a).attr('src','./assets/star2.png');
+                        $(this).attr('name','2');
+                        x[i]-=1;
+                    }
+                    p = ((x[0]+x[1]+x[2])/3).toFixed(2);
+                    $('#totalRate').html(p);
+                    mainRating();
+                    $('#star2',a).click(function(){
+                        if($(this).attr('name') == 2)
+                        {
+                            $('#star2',a).attr('src','./image/star1.png');
+                            $(this).attr('name','1');
+                            x[i]+=1;
+                        }
+                        else
+                        {
+                            $('#star2', a).attr('src','./assets/star2.png');
+                            $(this).attr('name','2');
+                            x[i]-=1;
+                        }
+                        p = ((x[0]+x[1]+x[2])/3).toFixed(2);
+                        $('#totalRate').html(p);
+                        mainRating();
+                        $('#star3',a).click(function(){
+                            if($(this).attr('name') == 2)
+                            {
+                                $('#star3', a).attr('src','./assets/star1.png');
+                                $(this).attr('name','1');
+                                x[i]+=1;
+                            }
+                            else
+                            {
+                                $('#star3', a).attr('src','./assets/star2.png');
+                                $(this).attr('name','2');
+                                x[i]-=1;
+                            }
+                            p = ((x[0]+x[1]+x[2])/3).toFixed(2);
+                            $('#totalRate').html(p);
+                            mainRating();
+                            $('#star4',a).click(function(){
+                                if($(this).attr('name') == 2)
+                                {
+                                    $('#star4', a).attr('src','./assets/star1.png');
+                                    $(this).attr('name','1');
+                                    x[i]+=1;
+                                }
+                                else
+                                {
+                                    $('#star4', a).attr('src','./assets/star2.png');
+                                    $(this).attr('name','2');
+                                    x[i]-=1;
+                                }
+                                p = ((x[0]+x[1]+x[2])/3).toFixed(2);
+                                $('#totalRate').html(p);
+                                mainRating();
+                                $('#star5',a).click(function(){
+                                    if($(this).attr('name') == 2)
+                                    {
+                                        $('#star5', a).attr('src','./assets/star1.png');
+                                        $(this).attr('name','1');
+                                        x[i]+=1;
+                                    }
+                                    else
+                                    {
+                                        $('#star5', a).attr('src','./assets/star2.png');
+                                        $(this).attr('name','2');
+                                        x[i]-=1;
+                                    }
+                                    p = ((x[0]+x[1]+x[2])/3).toFixed(2);
+                                    $('#totalRate').html(p);
+                                    mainRating();
+                                });
+                            });
+                        });
+                    });
+                });
+            }
+
+            $("[id^='rate_']").click(function(){
+                var a = $(this).prop('id');
+                console.log(a);
+                sId = a.split('_')[1];
+            });
+
+            $('#SaveRatting').click(function(){
+                console.log(sId);
+                let rateModel = {
+                    ServiceRequestId: sId,
+                    RatingFrom: 0,
+                    RatingTo : 0,
+                    Ratings: p,
+                    Comments: $('#cmt').val(),
+                    OnTimeArrival: x[0],
+                    Friendly: x[1],
+                    QualityOfService: x[2]
+                }
+                console.log(rateModel);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Ratting","Customer")',
+                    data: rateModel,
+                    dataType: 'JSON',
+                    success: function (response){
+                        if(response.success){
+                            $('#rateSp').modal('hide');
+                            location.reload(true);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+
+
+
+
+
+
+
+
