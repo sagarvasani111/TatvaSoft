@@ -1,0 +1,344 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model Helperland.viewmodel.LoginViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="~/css/style.css" rel="stylesheet" />
+    <style>
+        .dropbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+                .dropdown-content a:hover {
+                    background-color: #f1f1f1
+                }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+    </style>
+
+</head>
+<body>
+
+    <header>
+                <div class="bg-img">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+
+                        <div class="container-fluid">
+                            <a class="navbar-brand-img" href="#">
+                                <img src="/assets/white-logo-transparent-background.png" height="130px"
+                                     width="175px">
+                            </a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                                    aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                    @if (HttpContextAccessor.HttpContext.Session.GetString("UserTypeId") == "1" || HttpContextAccessor.HttpContext.Session.GetString("UserTypeId") == null)
+                                    {
+                                <li class="nav-item">
+                                    <a class="nav-link border" asp-action="BookService" asp-controller="BookService" style="color: white;">Book a Cleaner</a>
+                                </li>}
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="Prices" asp-controller="Home" style="color: white;">Prices</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#" style="color: white;">Our Guarantee</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#" style="color: white;">Blog</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="ContactUS" asp-controller="Home" style="color: white;">Contact Us</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link border" asp-action="BecomeAPro" asp-controller="Home" type="button" style="color: white;">Become a Helper</a>
+                                    </li>
+                                    @if (HttpContextAccessor.HttpContext.Session.GetString("FirstName") == null)
+                                    {
+                                <li class="nav-item">
+                                    <a class="nav-link border" href="" type="button" data-bs-target="#staticBackdrop" data-bs-toggle="modal"
+                                       style="color: white;">Login</a>
+                                </li> }
+
+                                    else
+                                    {
+                                <li>
+                                    <div class="vertical_line">
+                                    </div>
+                                </li>
+                                                <li class="notification">
+                                                    <div class="align-items-center justify-content-center" id="notification">
+                                                        <a href="#"><img src="/assets/icon-notification.png"></a>
+                                                    </div>
+                                                </li>
+                                                                <li>
+                                                                    <div class="vertical_line">
+                                                                    </div>
+                                                                </li>
+                                                                <li class="dropdown">
+                                                                    <a class="nav-link" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        <img src="/assets/user.png" class="arow">
+                                                                        <img src="/assets/sp-arrow-down.png">
+                                                                    </a>
+                                                                    <div class="dropdown-content">
+                                                                        <a class="dropdown-item" asp-action="MySettingTab" asp-controller="Home">My Setting</a>
+                                                                        <a class="dropdown-item" asp-action="Logout" asp-controller="Home">Logout</a>
+
+                                                                    </div>
+                                                                </li>
+
+
+                                                                                                @*<li class="dropdown">
+                                                                                                    <a class="nav-link" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                                        <img src="/assets/user.png" class="arow">
+                                                                                                        <img src="/assets/sp-arrow-down.png">
+                                                                                                    </a>
+                                                                                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                                                                                                        <li>
+                                                                                                            <a class="dropdown-item" href="#">Setting</a>
+                                                                                                        </li>
+                                                                                                        <li>
+                                                                                                            <a class="dropdown-item" asp-action="Logout" asp-controller="Home">Logout</a>
+                                                                                                        </li>
+                                                                                                    </ul>
+                                                                                                </li>*@
+                                    }
+
+
+                                    <li class="nav-item dropdown ">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img style="vertical-align: baseline;" src="assets/ic-flag.png" alt="">
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="background-color: black;">
+                                            <li><a class="dropdown-item" href="#"><img src="assets/ic-flag.png" alt=""> <span>India</span> </a></li>
+                                            <li><a class="dropdown-item" href="#"><img src="assets/ic-flag.png" alt=""> <span>U.K.</span> </a></li>
+                                            <li><a class="dropdown-item" href="#"><img src="assets/ic-flag.png" alt=""> <span>U.S.A.</span> </a></li>
+                                        </ul>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </div>
+                    </nav>
+                    <div>
+                        <h1 class="text">Lorem ipsum text</h1>
+                        <h2 class="text-sl">
+                            <img src="/assets/forma-1-copy-10.png" style="margin-right: 13px;">Lorem ipsum dolor sit
+                            amet, consectetur adipiscing
+                        </h2>
+                        <h2 class="text-sl">
+                            <img src="/assets/forma-1-copy-10.png" style="margin-right: 13px;">Lorem ipsum dolor sit
+                            amet, consectetur adipiscing
+                        </h2>
+                        <h2 class="text-sl">
+                            <img src="/assets/forma-1-copy-10.png" style="margin-right: 13px;">Lorem ipsum dolor sit
+                            amet, consectetur adipiscing
+                        </h2>
+                    </div>
+                    <div class="d-inline-flex p-2 bd-highlight rect"><a href="">Let's Book a Cleaner</a></div>
+                    <div class="d-flex justify-content-center step">
+                        <div>
+                            <img src="/assets/forma-1-copy.png">
+                            <p class="steps-text1">Enter your Postcode</p>
+                        </div>
+                        <div>
+                            <img src="/assets/step-arrow-1.png">
+                        </div>
+                        <div>
+                            <img src="/assets/group-22.png">
+                            <p class="steps-text2">Select your plan</p>
+                        </div>
+                        <div>
+                            <img src="/assets/step-arrow-1-copy.png">
+                        </div>
+                        <div>
+                            <img src="/assets/step-3.png">
+                            <p class="steps-text3">Pay securely online</p>
+                        </div>
+                        <div>
+                            <img src="/assets/step-arrow-1.png">
+                        </div>
+                        <div>
+                            <img src="/assets/step-4.png">
+                            <p class="steps-text4">Enjoy amazing service</p>
+                        </div>
+
+                    </div>
+                    <span class="Arrow">
+                        <a href=""><img src="/assets/shape-1.png"></a>
+                    </span>
+                    <br>
+                    <br>
+            </header>
+    <!--login modal-->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLable" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4 class="logHeader ms-3">Login to your account</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <img src="/assets/close.png">
+                    </button>
+                </div>
+                <form asp-action="Login" asp-controller="Home">
+                    <div class="form-log mb-3 mt-3">
+                        <input asp-for="Email" type="email" class="login-form form-control" id="pwd" placeholder="Email" name="email">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <img src="/assets/user_1.png" class="logImg">
+                    </div>
+                    <div class="form-log mb-3">
+                        <input asp-for="Password" type="password" class="login-form form-control" id="pwd" placeholder="Password" name="password">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <img src="/assets/lock.png" class="logImg1">
+                    </div>
+                    <div class="form-log mb-3">
+                        <input type="checkbox" value="isRemeberMe" id="rememberMe">
+                        <label for="rememberMe">Remember me</label>
+                    </div>
+                    <div class="form-log mb-3">
+                        <button type="submit" class="loginBtn">Login</button>
+                    </div>
+                </form>
+                <div class="text_center mb-1">
+                    <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#ForgetModal">
+                        Forget
+                        Password?
+                    </a>
+                </div>
+                <div class="text_center">
+                    Don't have an account?<a asp-action="Register" asp-controller="Home" class="ms-1">
+                        Create an
+                        <br>account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--ForgotPass modal-->
+
+    <div class="modal fate" id="ForgetModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="ForgetModalLable" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4 class="logHeader ms-4">Forget password</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <img src="/assets/close.png">
+                    </button>
+                    <form asp-action="ForgetPassword" asp-controller="Home">
+                        <div class="form-log mb-3 mt-3">
+                            <input asp-for="Email" type="email" class="login-form form-control" id="pwd" placeholder="Email Address"
+                                   name="email">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-log mb-3">
+                            <button type="submit" class="loginBtn">Send</button>
+                        </div>
+                        <div class="text_center">
+                            <a asp-action="Login" asp-controller="Home" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                               class="ms-1">Login now</a>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div>
+        @RenderBody()
+    </div>
+    <div class="container-fluid footer-section" style="background-color: black;">
+        <footer>
+            <div class="footer-content">
+
+
+                <nav class="nav footer-nav justify-content-space-evenly">
+                    <div class="footer-logo"><img src="/assets/white-logo-transparent-background.png"></div>
+                    <a class="nav-link footer-data" asp-action="Index" asp-controller="Home">Home</a>
+                    <a class="nav-link footer-data" asp-action="About" asp-controller="Home">About</a>
+                    <a class="nav-link footer-data" href="">Testimonials</a>
+                    <a class="nav-link footer-data" asp-action="FAQ" asp-controller="Home">faqs</a>
+                    <a class="nav-link footer-data" href="">Insurance Policy</a>
+                    <a class="nav-link footer-data" href="">Impressum</a>
+                    <img src="assets/ic-facebook.png" style="height: 20px; margin-left: 100px; margin-top: 70px; margin-right: 5px;">
+                    <img src="assets/ic-instagram.png" style="height: 20px; margin-top: 70px;">
+                </nav>
+
+            </div>
+
+        </footer>
+    </div>
+    <div class="container-fluid privacy-policy-sec" style="background-color: #292929;">
+        <p class="text-center p-3">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ea iste pariatur cumque. <span style="color:#6EABEF; ">Privacy Policy</span>
+        </p>
+
+    </div>
+    @if (IsSectionDefined("Scripts"))
+    {
+
+@RenderSection("Scripts", required: true)}
+    }}
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/script/index.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+
+</body>
+</html>
