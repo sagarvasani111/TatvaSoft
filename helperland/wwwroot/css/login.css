@@ -1,0 +1,82 @@
+.form-log{
+    margin: 0px 30px;
+}
+.login-form{
+    width: 100%;
+    position: relative;
+}
+.logImg{
+    position: absolute;
+    right: 40px;
+    top: 84px;
+}
+.logImg1{
+    position: absolute;
+    right: 40px;
+    top: 138px;
+}
+.logHeader{
+    display: inline;
+}
+.close{
+    border: none;
+    background: none;
+    float: right;
+}
+.loginBtn{
+    border: 1px solid;
+    border-radius: 40px;
+    color: white;
+    background: #1D7A8C;
+    width: 100%;
+    padding: 6px;
+}
+.text_center{
+    text-align: center;
+    color: #4F4F4F;
+}
+.text_center a{
+    text-decoration: none;
+    color: #1d7a8c;
+}
+.btnRegdiv{
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+.text_center1 a{
+    text-decoration: none;
+    color: #1d7a8c;
+}
+.btnRegister{
+    border: 1px solid;
+    border-radius: 40px;
+    color: white;
+    background: #1D7A8C;
+    padding: 10px 50px;
+    font-weight: bold;
+}
+.savebtn{text-align: start;}
+.btnRegister a{
+    color: white;
+    text-decoration: none;
+}
+.termsAndCondition{
+    display: inline;
+}
+.btnRegister1{
+    border: 1px solid;
+    border-radius: 40px;
+    color: white;
+    background: #1D7A8C;
+    padding: 10px 40px;
+    font-weight: bold;
+}
+.btnRegister1 a{
+    color: white;
+    text-decoration: none;
+}
+.forgetPass{
+    color: #525252;
+    font-weight: bold;
+}
