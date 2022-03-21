@@ -1,0 +1,118 @@
+﻿@model ServiceProviderViewModel
+
+@{
+    ViewBag.Title = "SP Block";
+    Layout = "_ServiceProviderLayout";
+    var i = -1;
+    var j = 0;
+}
+
+<!-- SP Service Request-->
+<section class="spBlock">
+    <div class="serviceRequest">
+        <div class="service-history">
+            <div class="upcoming-service-details">
+                <div class="container">
+                    <div id="upcoming-service-menu-table" class="d-flex">
+                        <div class="container-menu">
+                            <div class="navbar">
+                                <ul id="upcoming-service-menu" class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Dashboard</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPServiceRequest">New Service Request</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPUpcomingService">Upcoming Service</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Service Schedule</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPServiceHistory">Service History</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPRatting">My Rattings</a>
+                                    </li>
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="#">Block Customer</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Invoices</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Notifications</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+    
+                        <div class="container-details text-center">
+                           <div class="row text-center">
+                                @if(Model != null)
+                                {
+                                    foreach(var x in Model.custName)
+                                    {
+                                        i += 1;
+                                        <div class="col-sm-4 mb-3">
+                                            <div class="block">
+                                                <div class="userBlock">
+                                                    <img class="mb-4" src="~/assets/avatar-hat.png">
+                                                    <div class="mb-3">@x</div>
+                                                    @if(@Model.favorites[i] != null)
+                                                    {
+                                                        @if(@Model.favorites[i].IsBlocked)
+                                                        {
+                                                            <button id="blockbtn_@Model.userid[i]" class="red cancel">Unblock</button>
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="blockbtn_@Model.userid[i]" class="red">Block</button>
+                                                        } 
+                                                    }
+                                                    else
+                                                    {
+                                                        <button id="blockbtn_@Model.userid[i]" class="red">Block</button>
+                                                    } 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+        $("[id^='blockbtn_']").click(function(){
+                var a = $(this).prop('id');
+                console.log(a);
+                let uId = a.split('_')[1];
+                let model = {
+                    TargetUserId : uId,
+                    UserId: 0,
+                    IsFavorite: false,
+                    IsBlocked: true
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("BlockandUnblock","ServiceProvider")',
+                    data: model,
+                    dataType: 'JSON',
+                    success: function (response){
+                        if(response.success){
+                            location.reload(true);
+                        }
+                    }
+                });
+            });
+    </script>
+}
+

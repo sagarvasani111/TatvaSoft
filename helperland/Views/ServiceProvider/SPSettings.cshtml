@@ -1,0 +1,402 @@
+﻿@model ServiceProviderViewModel
+
+@{
+    ViewBag.Title = "SP Settings";
+    Layout = "_ServiceProviderLayout";
+    var i = -1;
+    var j = 0;
+
+}
+
+<!-- SP Service Request-->
+<section class="spProfile">
+    <div class="spServiceRequest">
+        <div class="serviceRequest">
+            <div class="service-history">
+                <div class="upcoming-service-details">
+                    <div class="container">
+                        <div id="upcoming-service-menu-table" class="d-flex">
+                            <div class="container-menu">
+                                <div class="navbar">
+                                    <ul id="upcoming-service-menu" class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Dashboard</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-action="SPServiceRequest">New Service Request</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-action="SPUpcomingService">Upcoming Service</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Service Schedule</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-action="SPServiceHistory">Service History</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-action="SPRatting">My Rattings</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Block Customer</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Invoices</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Notifications</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="container-details">
+                                <div class="profile-options">
+                                    <ul class="nav nav-tabs nav-justified">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-bs-toggle="tab" aria-current="page"
+                                                href="#MyDetails" id="MyDetails-tab">My Details</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" aria-current="page" href="#ChangePassword"
+                                                id="ChangePassword-tab">Change Password</a>
+                                        </li>
+                                    </ul>
+    
+                                    <!-- Tab Content -->
+                                    <div class="tab-content">
+    
+                                        <!-- MyDetails-tab -->
+                                        <div class="tab-pane fade show active" id="MyDetails" role="tabpanel" aria-labelledby="MyDetails-tab">
+                                            <h3>Account Status: <span>Active</span>
+                                                <span >
+                                                    <img id="AvtarImage" src="@Model.user.UserProfilePicture">
+                                                </span>
+                                                <p class="title mt-3 mb-0">Basic Details</p>
+                                            </h3>   
+                                            <hr class="mt-1">
+                                            <div class="row mb-2">
+                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                    <label class="form-label">First Name</label>
+                                                    <input asp-for="user.FirstName" class="form-control" placeholder="First name" aria-label="First name">
+                                                </div>
+                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                    <label class="form-label">Last Name</label>
+                                                    <input asp-for="user.LastName" class="form-control" placeholder="Last name" aria-label="Last name">
+                                                </div>
+                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                    <label class="form-label">E-mail address</label>
+                                                    <input asp-for="user.Email" readonly class="form-control" aria-label="Last name">
+                                                </div>
+                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                    <label class="form-label">Mobile Number</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-text">+91</div>
+                                                        <input asp-for="user.Mobile" class="form-control" placeholder="Mobile Number">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                    <label class="form-label">Date of Birth</label>
+                                                    <div class="dob-group">
+                                                        <div class="dob">
+                                                            <select asp-for="Day" class="form-select day" aria-label="Default select example">
+                                                                <option selected>Day</option>
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                                <option value="5">5</option>
+                                                                <option value="6">6</option>
+                                                                <option value="7">7</option>
+                                                                <option value="8">8</option>
+                                                                <option value="9">9</option>
+                                                                <option value="10">10</option>
+                                                                <option value="11">11</option>
+                                                                <option value="12">12</option>
+                                                                <option value="13">13</option>
+                                                                <option value="14">14</option>
+                                                                <option value="15">15</option>
+                                                                <option value="16">16</option>
+                                                                <option value="17">17</option>
+                                                                <option value="18">18</option>
+                                                                <option value="19">19</option>
+                                                                <option value="20">20</option>
+                                                                <option value="21">21</option>
+                                                                <option value="22">22</option>
+                                                                <option value="23">23</option>
+                                                                <option value="24">24</option>
+                                                                <option value="25">25</option>
+                                                                <option value="26">26</option>
+                                                                <option value="27">27</option>
+                                                                <option value="28">28</option>
+                                                                <option value="29">29</option>
+                                                                <option value="30">30</option>
+                                                                <option value="31">31</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="dob">
+                                                            <select asp-for="Month" class="form-select month" aria-label="Default select example">
+                                                                <option selected>Month</option>
+                                                                <option value="1">January</option>
+                                                                <option value="2">February</option>
+                                                                <option value="3">March</option>
+                                                                <option value="4">April</option>
+                                                                <option value="5">May</option>
+                                                                <option value="6">June</option>
+                                                                <option value="7">July</option>
+                                                                <option value="8">August</option>
+                                                                <option value="9">September</option>
+                                                                <option value="10">October</option>
+                                                                <option value="11">November</option>
+                                                                <option value="12">December</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="dob">
+                                                            <select asp-for="Year" class="form-select year" aria-label="Default select example">
+                                                                <option selected>Year</option>
+                                                                <option value="2010">2012</option>
+                                                                <option value="2011">2011</option>
+                                                                <option value="2010">2010</option>
+                                                                <option value="2009">2009</option>
+                                                                <option value="2008">2008</option>
+                                                                <option value="2007">2007</option>
+                                                                <option value="2006">2006</option>
+                                                                <option value="2005">2005</option>
+                                                                <option value="2004">2004</option>
+                                                                <option value="2003">2003</option>
+                                                                <option value="2002">2002</option>
+                                                                <option value="2001">2001</option>
+                                                                <option value="2000">2000</option>
+                                                                <option value="1999">1999</option>
+                                                                <option value="1998">1998</option>
+                                                                <option value="1997">1997</option>
+                                                                <option value="1996">1996</option>
+                                                                <option value="1995">1995</option>
+                                                                <option value="19940">1994</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                    <label class="form-label">Natonality</label>
+                                                    <select asp-for="user.NationalityId" class="form-select nation" aria-label="Default select example">
+                                                        <option selected value="1">Indian</option>
+                                                        <option value="2">German</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-12 mb-3">
+                                                    <label class="form-label">Gender</label>
+                                                    <div>
+                                                        @if (Model.user.Gender == 1)
+                                                        {
+                                                            <input type="radio" id="maleRadio" class="form-check-input" name="optradio" checked>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="radio" id="maleRadio" class="form-check-input" name="optradio">
+                                                        }
+                                                        <span class="radiofirst">Male</span>
+                                    
+                                                        @if (Model.user.Gender == 2)
+                                                        {
+                                                            <input type="radio" id="femaleRadio" class="form-check-input" name="optradio" checked>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="radio" id="femaleRadio" class="form-check-input" name="optradio">
+                                                            
+                                                        }
+                                                        <span class="radio">Female</span>
+                                    
+                                                        @if (Model.user.Gender == 3)
+                                                        {
+                                                            <input type="radio" id="otherRadio" class="form-check-input" name="optradio" checked>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="radio" id="otherRadio" class="form-check-input" name="optradio">
+                                                            
+                                                        }
+                                                        <span class="radio">Rather not to say</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 mb-3">
+                                                    <label class="form-label avatarLabel">Select Avatar</label>
+                                                    <div class="avatarImage">
+                                                        <img asp-action="imagePath" class="avatar active" id="car" src="~/image/avatar-car.png">
+                                                    </div>
+                                                    <div class="avatarImage">
+                                                        <img class="avatar" id="female" src="~/assets/avatar-female.png">
+                                                    </div>
+                                                    <div class="avatarImage">
+                                                        <img class="avatar" id="hat" src="~/assets/avatar-hat.png">
+                                                    </div>
+                                                    <div class="avatarImage">
+                                                        <img class="avatar" id="iron" src="~/assets/avatar-iron.png">
+                                                    </div>
+                                                    <div class="avatarImage">
+                                                        <img class="avatar" id="male" src="~/assets/avatar-male.png">
+                                                    </div>
+                                                    <div class="avatarImage">
+                                                        <img class="avatar" id="ship" src="~/assets/avatar-ship.png">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <p class="title mb-1">My Address</p>
+                                            <hr class="mt-1">
+                                            <div class="row address mb-2">
+                                                <input asp-for="userAddress.AddressId" hidden/>
+                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                    <label class="form-label">Street Name</label>
+                                                    <input asp-for="userAddress.AddressLine1" placeholder="Street Name" class="form-control" aria-label="First name">
+                                                </div>
+                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                    <label class="form-label">House Number</label>
+                                                    <input asp-for="userAddress.AddressLine2" placeholder="House Number" class="form-control"  aria-label="Last name">
+                                                </div>
+                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                    <label class="form-label">Postal Code</label>
+                                                    <input asp-for="userAddress.PostalCode" placeholder="Postal Code" class="form-control" aria-label="Last name">
+                                                </div>
+                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                    <label class="form-label">City</label>
+                                                    <input asp-for="userAddress.City" placeholder="City" class="form-control" aria-label="Last name">
+                                                </div>
+                                            </div>
+
+                                            <button id="SpSave" type="button" class="save-btn">Save</button>
+                                        </div>
+
+
+                                        <!-- ChanePassword-tab -->
+                                        <div class="tab-pane fade" id="ChangePassword" role="tabpanel"
+                                            aria-labelledby="ChangePassword-tab">
+                                            <div class="row mb-1 mt-3">
+                                                <div class="col-sm-4">
+                                                    <label class="form-label">Old Password</label>
+                                                    <input asp-for="changePassword.old" class="form-control" placeholder="Current Password"
+                                                        aria-label="Current Password">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-1 mt-3">
+                                                <div class="col-sm-4">
+                                                    <label class="form-label">New Password</label>
+                                                    <input asp-for="changePassword.new1" class="form-control" placeholder="Password"
+                                                        aria-label="Password">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-1 mt-3 mb-3">
+                                                <div class="col-sm-4">
+                                                    <label class="form-label">Confirm Password</label>
+                                                    <input asp-for="changePassword.confirm" class="form-control" placeholder="Confirm Password"
+                                                        aria-label="Password">
+                                                </div>
+                                            </div>
+                                            <button id="chpassword" class="pwd-save">Save</button>
+                                        </div>
+    
+                                    </div>
+                                </div>
+                            </div>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+        $(document).ready(function(){
+            $('.avatar').click(function(){
+                var id1 = '#'+$('.avatar.active').attr('id');
+                var imgName = $(this).attr('id');
+                var id2 = '#'+imgName;
+                $(id1).removeClass('active');
+                $(id2).addClass('active');
+                var src = $(id2).attr('src');
+                $('#AvtarImage').attr('src',src);
+            });
+
+            $('#SpSave').click(function(){
+                let a = 0;
+                let day = $('#@Html.IdFor(m => m.Day)').val();
+                let month = $('#@Html.IdFor(m => m.Month)').val();
+                let year = $('#@Html.IdFor(m => m.Year)').val();
+                let s = year+"-"+month+"-"+day;
+                if($('#maleRadio').prop('checked'))
+                {
+                    a=1;
+                }
+                if($('#femaleRadio').prop('checked'))
+                {
+                    a=2;
+                }
+                if($('#otherRadio').prop('checked'))
+                {
+                    a=3;
+                }
+                let userModal = {
+                    FirstName: $('#@Html.IdFor(m => m.user.FirstName)').val(),
+                    LastName: $('#@Html.IdFor(m => m.user.LastName)').val(),
+                    Mobile: $('#@Html.IdFor(m => m.user.Mobile)').val(),
+                    DateOfBirth: s,
+                    NationalityId: $('#@Html.IdFor(m => m.user.NationalityId)').val(),
+                    Gender: a,
+                    UserProfilePicture: $('#AvtarImage').attr('src')
+                }
+                let addressModel = {
+                    AddressId: $('#@Html.IdFor(m => m.userAddress.AddressId)').val(),
+                    AddressLine1: $('#@Html.IdFor(m => m.userAddress.AddressLine1)').val(),
+                    AddressLine2: $('#@Html.IdFor(m => m.userAddress.AddressLine2)').val(),
+                    City: $('#@Html.IdFor(m => m.userAddress.City)').val(),
+                    PostalCode: $('#@Html.IdFor(m => m.userAddress.PostalCode)').val(),
+                    Mobile: $('#@Html.IdFor(m => m.userAddress.Mobile)').val()
+                }
+                let model = {
+                   User : userModal,
+                   Address : addressModel
+                }
+                console.log(userModal);
+                console.log(addressModel);
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("UpdateSPDetails","ServiceProvider")',
+                    data: model,
+                    dataType: 'JSON',
+                    success: function (response){
+                        if(response.success)
+                        {
+                            location.reload(true);
+                        }
+                    }
+                });
+            });
+
+            $('#chpassword').click(function(){
+                let model ={
+                    old: $('#@Html.IdFor(m=>m.changePassword.old)').val(),
+                    new1: $('#@Html.IdFor(m=>m.changePassword.new1)').val(),
+                    confirm: $('#@Html.IdFor(m=>m.changePassword.confirm)').val(),
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("UpdatePassword","ServiceProvider")',
+                    data: model,
+                    dataType: 'JSON',
+                    success: function (response){
+                        if(response.success)
+                        {
+                            $('#DeleteAddress').modal('hide');
+                            location.reload(true);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+

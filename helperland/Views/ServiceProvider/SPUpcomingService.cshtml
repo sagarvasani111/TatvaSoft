@@ -1,0 +1,256 @@
+﻿@model ServiceProviderViewModel
+
+@{
+    ViewBag.Title = "SP Upcoming Service";
+    Layout = "_ServiceProviderLayout";
+    var i = -1;
+    var j = 0;
+}
+
+<!-- SP Service Request-->
+<section class="spServiceRequest">
+    <div class="serviceRequest">
+        <div class="service-history">
+            <div class="upcoming-service-details">
+                <div class="container">
+                    <div id="upcoming-service-menu-table" class="d-flex">
+                        <div class="container-menu">
+                            <div class="navbar">
+                                <ul id="upcoming-service-menu" class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Dashboard</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPServiceRequest">New Service Request</a>
+                                    </li>
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="#">Upcoming Service</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Service Schedule</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPServiceHistory">Service History</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPRatting">My Rattings</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPBlock">Block Customer</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Invoices</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Notifications</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+    
+                        <div class="container-details text-center">
+                            <table id="Data" class="table mb-3">
+                                <thead>
+                                    <tr>
+                                        <th>Service ID</th>
+                                        <th>Service Date</th>
+                                        <th>Customer Details</th>
+                                        <th>Payment</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    @if(Model.services != null)
+                                    {
+                                        @foreach(var x in Model.services)
+                                        {
+                                            i += 1;
+                                            <tr id="service">
+                                                <td>
+                                                    <a data-bs-toggle="modal" data-bs-target="#CustUpcomingService_@i">
+                                                        @x.ServiceId
+                                                    </a>
+                                                </td>
+                                                <td class="table-item-2">
+                                                    <a data-bs-toggle="modal" data-bs-target="#CustUpcomingService_@i">
+                                                        <span>
+                                                            <img src="~/assets/calendar2.png" alt="Sort">
+                                                            <b>@String.Format("{0:dd/MM/yyyy}",x.ServiceStartDate)</b>
+                                                        </span>
+                                                        <br>
+                                                        <span>
+                                                            <img src="~/assets/layer-14.png" alt="Sort">
+                                                            @x.ServiceStartDate.ToString("HH:mm") -
+                                                            @Model.serviceEnd[i].ToString("HH:mm")
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                                <td class="rating">
+                                                    <a data-bs-toggle="modal" data-bs-target="#CustUpcomingService_@i">
+                                                        <div class="rating d-flex">
+                                                            <img class="sp_cu_img" src="~/assets/layer-15.png" alt="Sort">
+                                                            <div class="r-details d-flex flex-column">
+                                                                <p class="mb-1">@Model.custName[i]</p>
+                                                                <p class="mb-1">@Model.addresses[i].AddressLine1 @Model.addresses[i].AddressLine2</p>
+                                                                <p class="mb-0">@Model.addresses[i].PostalCode @Model.addresses[i].City</p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a data-bs-toggle="modal" data-bs-target="#CustUpcomingService_@i">
+                                                        <span id="Price">
+                                                            <p class="mb-0">@x.TotalCost &euro;</p>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                                <td class="button">
+                                                    @if(Model.time >= x.ServiceStartDate)
+                                                    {
+                                                        <button id="Complete_@x.ServiceRequestId" class="blue">Complete</button>
+                                                    }
+                                                    <a data-bs-toggle="modal" data-bs-target="#cancel">
+                                                        <button id="Cancel_@x.ServiceId" class="blue cancel">Cancel</button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            <div class="CustServiceDetails modal fade text-start" id="CustUpcomingService_@i" data-bs-backdrop="static">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <h4>Service Details</h4>
+                                                            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"><img
+                                                                    src="~/assets/close.png"></button>
+                                                            <p class="dateTime">@String.Format("{0:dd/MM/yyyy}",x.ServiceStartDate)
+                                                                @x.ServiceStartDate.ToString("HH:mm") -
+                                                                @Model.serviceEnd[i].ToString("HH:mm")</p>
+                                                            <p><b>Duration:</b> @x.ServiceHours Hrs</p>
+                                                            <hr>
+                                                            <p><b>Service Id:</b> @x.ServiceId</p>
+                                                            <p><b>Extras:</b> @Model.extras[i]</p>
+                                                            <p><b>Total Payment:</b> <span>@x.TotalCost &euro;</span></p>
+                                                            <hr class="mt-1">
+                                                            <p><b>Customer Name:</b> @Model.custName[i]</p>
+                                                            <p><b>Service Address:</b> @Model.addresses[i].AddressLine1 
+                                                                @Model.addresses[i].AddressLine2</p>
+                                                            <p>@Model.addresses[i].City</p>
+                                                            <hr>
+                                                            <p><b>Comments:</b>
+                                                            </p>
+                                                            @if(!x.HasPets)
+                                                            {
+                                                                <p>
+                                                                    <img src="~/assets/not-included.png"> 
+                                                                    I don't have pets at home
+                                                                </p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p> 
+                                                                    I have pets at home
+                                                                </p>
+                                                            }
+                                                            <a data-bs-toggle="modal" data-bs-target="#cancel">
+                                                                <button id="Cancel_@x.ServiceId" type="button" class="red">Cancel</button>
+                                                            </a>
+                                                            @if (Model.time >= x.ServiceStartDate)
+                                                            {
+                                                                <button id="Complete_@x.ServiceRequestId" type="button" class="cmpBtn">Complete</button>
+                                                            }
+
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="modal fade" id="cancel" data-bs-backdrop="static">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <h4 class="mb-4">Cancel Service</h4>
+                                        <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"><img
+                                                src="~/assets/close.png"></button>
+                                        <form class="mb-0">
+                                            <label class="form-label">Why you want to cancel the service?</label>
+                                            <div class="mb-3">
+                                                <textarea asp-for="@Model.cancel.Reason" type="text" class="form-control" rows="4"></textarea>
+                                            </div>
+                                            <button type="button" id="Cancelbtn" class="update text-center">Cancel Now</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+        $(document).ready(function(){
+            let sId = 0;
+            $("[id^='Cancel_']").click(function(){
+                var a = $(this).prop('id');
+                console.log(a);
+                sId = a.split('_')[1];
+                console.log(sId);
+            });
+
+            $("[id^='Complete_']").click(function(){
+                var a = $(this).prop('id');
+                sId = a.split('_')[1];
+                let model = {ServiceRequestId : sId}
+                console.log(model);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ServiceComplete","ServiceProvider")',
+                    data: model,
+                    dataType: 'JSON',
+                    success: function (response) {
+                        if(response.success)
+                        {
+                            location.reload(true);
+                        }
+                    }
+                });
+            });
+
+
+
+            $('#Cancelbtn').click(function(){
+                let model = {
+                    ServiceId: sId,
+                    Reason: $('#@Html.IdFor(m => m.cancel.Reason)').val()
+                }
+                console.log(model);
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ServiceCancel","ServiceProvider")',
+                    data: model,
+                    dataType: 'JSON',
+                    success: function (response) {
+                        if(response.success)
+                        {
+                            $('#cancel').modal('hide');
+                            location.reload(true);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
