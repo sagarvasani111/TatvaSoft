@@ -1,0 +1,110 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
+    <link href="~/css/user-management.css" rel="stylesheet" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <section class="header-section">
+        <nav class="navbar navbar-light bg-nav">
+            <div class="container-fluid">
+                <span class="navbar-brand mb-0 h1">helperland</span>
+
+                <ul class="nav justify-content-end text-align-center">
+                    <li class="nav-item">
+                        <a class="nav-link headLink" aria-current="page" href="#">
+                            <img src="/assets/profile-dropdown.png">
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" style="color: white;">James Smith</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" style="color: white;">
+                            <img src="/assets/logout.png">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </section>
+    <div>
+        @RenderBody()
+    </div>
+    </div>
+    <script>
+    $(document).ready(function () {
+            $("#umAdminTable").DataTable({
+                "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
+                "pagingType": "full_numbers",
+                "searching": false,
+                'columnDefs': [{
+                    'targets': [5],
+                    'orderable': false,
+                }],
+                "language": {
+                    "paginate": {
+                        "first": '<img src="/images/leftMost.png" alt="">',
+                        "last": '<img src="/images/RightMost.png" alt="">',
+                        "previous": '<img src="/images/Left-arrow-button-copy.png" alt="">',
+                        "next": '<img src="/images/Right-arrow-button.png" alt="">'
+                    },
+                    'info': "Total Record: _MAX_",
+                }
+            });
+            $(".buttons-pdf").hide();
+            $(".buttons-copy").hide();
+            $(".buttons-csv").hide();
+            $(".buttons-print").hide();
+        });
+        $(document).ready(function () {
+            $("#srAdminTable").DataTable({
+                "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
+                "pagingType": "full_numbers",
+                "searching": false,
+                'columnDefs': [{
+                    'targets': [5],
+                    'orderable': false,
+                }],
+                "language": {
+                    "paginate": {
+                        "first": '<img src="/images/leftMost.png" alt="">',
+                        "last": '<img src="/images/RightMost.png" alt="">',
+                        "previous": '<img src="/images/Left-arrow-button-copy.png" alt="">',
+                        "next": '<img src="/images/Right-arrow-button.png" alt="">'
+                    },
+                    'info': "Total Record: _MAX_",
+                }
+            });
+            $(".buttons-pdf").hide();
+            $(".buttons-copy").hide();
+            $(".buttons-csv").hide();
+            $(".buttons-print").hide();
+        });</script>
+    @if (ViewBag.admin_service != null)
+    {
+<script>
+    $('#admin_ser').addClass('active');
+    $('#admin_user').removeClass('active');
+    $('#v-pills-ServiceRequest').addClass('show');
+    $('#v-pills-ServiceRequest').addClass('active');
+    $('#v-pills-UserManagement').removeClass('show');
+    $('#v-pills-UserManagement').removeClass('active');</script>}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+</body>
+</html>
