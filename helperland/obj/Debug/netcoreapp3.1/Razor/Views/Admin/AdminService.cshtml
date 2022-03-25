@@ -1,0 +1,480 @@
+﻿@model AdminViewModel
+@using System.Text.Json;
+@{ ViewBag.Title = "Service Management";
+    ViewBag.Name = ViewBag.name;
+    Layout = "_Layout4";
+    var i = -1;
+    var j = 0; }
+
+
+<!-- Menu -->
+<section class="admin-service-request">
+    <div class="admin-content">
+        <div class="admin-container">
+            <div class="d-flex" id="admin-user">
+                <div class="admin-menu">
+                    <button class="hide navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#adminMenu" aria-controls="adminMenu" aria-expanded="false"
+                            aria-label="Toggle navigation" id="ham">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar" id="adminMenu">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">Service Management</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Admin" asp-action="AdminUser">User Management</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="user-details">
+                    <div class="details-container">
+                        <div class="title">
+                            <h2>Service Requests</h2>
+                        </div>
+                        <div class="user-search mb-2">
+                            <div class="row">
+                                <div class="col-auto mb-3">
+                                    <div>
+                                        <input type="email" class="form-a admin-form form-control"
+                                               id="serviceId" placeholder="Service ID">
+                                    </div>
+                                </div>
+                                <div class="col-auto mb-3">
+                                    <input type="text" class="form-a admin-form form-control"
+                                           id="customerName" placeholder="Customer">
+                                </div>
+                                <div class="col-auto mb-3">
+                                    <select class="admin-form form-3 form-select" aria-label="Default select example">
+                                        <option selected>Service Provider</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                </div>
+                                <div class="col-auto mb-3">
+                                    <select class="admin-form form-1 form-select" id="status" aria-label="Default select example">
+                                        <option selected>Status</option>
+                                        <option value="new">New</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="completed">Completed</option>
+                                        <option value="cancelled">Cancelled</option>
+                                        <option value="refunded">Refunded</option>
+                                        <option value="expired">Expired</option>
+                                        <option value="reschedule">Reschedule</option>
+
+                                    </select>
+                                </div>
+                                <div class="col-auto mb-3">
+                                    <div>
+                                        <input type="date" class="form-a admin-form form-control"
+                                               id="exampleFormControlInput1" placeholder="Service ID">
+                                    </div>
+                                </div>
+                                <div class="col-auto mb-3">
+                                    <div>
+                                        <input type="date" class="form-a admin-form form-control"
+                                               id="exampleFormControlInput1" placeholder="Service ID">
+                                    </div>
+                                </div>
+                                <div class="form-5 col-auto mb-3">
+                                    <button type="button" id="searchData" class="search btn btn-primary">Search</button>
+                                </div>
+                                <div class="form-5 col-auto mb-3">
+                                    <button type="button" id="clearData" class="clear btn">Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="YourDetailsError"></div>
+                        <div class="user-table">
+                            <table id="Data" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Service ID</th>
+                                        <th>Service date</th>
+                                        <th>Customer Details</th>
+                                        <th>Service Provider</th>
+                                        <th>Gross Amount</th>
+                                        <th>Net Amount</th>
+                                        <th>Discount</th>
+                                        <th>Status</th>
+                                        <th>Payment Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.services != null)
+                                    {
+                        @foreach (var x in Model.services)
+                        {
+                            i += 1;
+        <tr id="admin" class="sort_@i">
+            <td>@x.ServiceId</td>
+            <td>
+                <span class="mb-3">
+                    <img src="~/assets/calendar2.png" alt="Sort">
+                    <b>@String.Format("{0:dd/MM/yyyy}", x.ServiceStartDate)</b>
+                </span><br>
+                <span>
+                    <img src="~/assets/layer-14.png" alt="Sort">
+                    @x.ServiceStartDate.ToString("HH:mm") -
+                    @Model.serviceEnd[i].ToString("HH:mm")
+                </span>
+            </td>
+            <td>
+                <div class="d-flex">
+                    <img src="~/assets/layer-15.png">
+                    <div>
+                        <p>@Model.Name[i]</p>
+                        @*<p>@Model.address[i].AddressLine1 @Model.address[i].AddressLine2</p>*@
+                        @*<p>@Model.address[i].PostalCode @Model.address[i].City</p>*@
+                    </div>
+                </div>
+            </td>
+            <td class="rating">
+                @if (x.ServiceProviderId != null)
+                {
+<div class="rating d-flex">
+    <img class="image4" src="~/assets/cap.png" alt="Sort">
+    <div class="r-details d-flex flex-column">
+        <p class="mb-2">@Model.Name[i]</p>
+        <div class="star d-flex">
+            <img src="~/assets/star1.png" alt="">
+            <img src="~/assets/star1.png" alt="">
+            <img src="~/assets/star1.png" alt="">
+            <img src="~/assets/star1.png" alt="">
+            <img src="~/assets/star2.png" alt="">
+            <p>4</p>
+        </div>
+    </div>
+</div>}
+            </td>
+            <td>@x.TotalCost &euro;</td>
+            <td>@x.TotalCost &euro;</td>
+            <td>    </td>
+            <td class="button">
+                @if (x.ServiceProviderId == null && x.Status == null)
+                {
+<button class="yellow">New</button>}
+                @if (x.Status == 1)
+                {
+<button class="green">Completed</button>}
+                @if (x.Status == 2)
+                {
+<button class="pink">Cancelled</button>}
+                @if (x.ServiceProviderId != null && x.Status == null)
+                {
+<button class="lblue">Pending</button>}
+            </td>
+            <td class="button">
+                @if (x.ServiceProviderId == null && x.Status == null || x.ServiceProviderId != null && x.Status == null)
+                {
+<button class="pink">Not Applicable</button>}
+                @if (x.Status == 1)
+                {
+<button class="green">Settled</button>}
+                @if (x.Status == 2)
+                {
+<button class="pink">Not Applicable</button>}
+            </td>
+            <td>
+                @*@if(x.Status == null)
+                    {*@
+                <a class="drop-toggle" data-bs-toggle="collapse" href="#drop-down_@i">
+                    <img src="~/assets/group-38.png" alt="">
+                </a>
+                @*}
+                    else
+                    {
+                        <a class="drop-toggle" data-bs-toggle="collapse" href="#">
+                            <img src="~/image/group-38.png" alt="">
+                        </a>
+                    }*@
+
+                <ul class="collapdse dropdown-menu" id="drop-down_@i">
+                    <li>
+
+                        <a data-bs-toggle="modal" id="edit_@i" data-bs-target="#EditReschedule" data-bs-dismiss="modal">
+                            Edit & Reschedule
+                        </a>
+                    </li>
+                    <li><a>Cancel SR by Cust</a></li>
+                    <li><a>Inquiry</a></li>
+                    <li><a>History log</a></li>
+                    <li><a>Download Invoice</a></li>
+                    <li><a>Other Transcation</a></li>
+                </ul>
+            </td>
+        </tr>
+}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="EditReschedule modal fade" id="EditReschedule" data-bs-backdrop="static">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <h4>Edit Service Request</h4>
+                                    <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
+                                        <img src="~/assets/close.png">
+                                    </button>
+
+                                    <form class="mb-0">
+                                        <div class="row">
+                                            <input asp-for="adminReschedule.serviceId" class="d-none" />
+                                            <div class="col-sm-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label"><b>Date</b></label>
+                                                    <input asp-for="adminReschedule.ServiceDate" class="form-control" placeholder="Date">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Time</label>
+                                                    <div class="dropdown">
+                                                        <select asp-for="adminReschedule.time" class="button">
+                                                            <option value="8" selected>8:00</option>
+                                                            <option value="8.5">8:30</option>
+                                                            <option value="9">9:00</option>
+                                                            <option value="9.5">9:30</option>
+                                                            <option value="10">10:00</option>
+                                                            <option value="10.5">10:30</option>
+                                                            <option value="11">11:00</option>
+                                                            <option value="11.5">11:30</option>
+                                                            <option value="12">12:00</option>
+                                                            <option value="12.5">12:30</option>
+                                                            <option value="13">13:00</option>
+                                                            <option value="13.5">13:30</option>
+                                                            <option value="14">14:00</option>
+                                                            <option value="14.5">14:30</option>
+                                                            <option value="15">15:00</option>
+                                                            <option value="15.5">15:30</option>
+                                                            <option value="16">16:00</option>
+                                                            <option value="16.5">16:30</option>
+                                                            <option value="17">17:00</option>
+                                                            <option value="17.5">17:30</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <label class="form-label"><b>Service Address</b></label>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Street Name</label>
+                                                    <input asp-for="adminReschedule.AddressLine1" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">House Number</label>
+                                                    <input asp-for="adminReschedule.AddressLine2" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Postal Code</label>
+                                                    <input asp-for="adminReschedule.PostalCode" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">City</label>
+                                                    <input asp-for="adminReschedule.City" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <label class="form-label"><b>Invoice Address</b></label>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Street Name</label>
+                                                    <input asp-for="adminReschedule.IAddressLine1" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">House Number</label>
+                                                    <input asp-for="adminReschedule.IAddressLine2" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Postal Code</label>
+                                                    <input asp-for="adminReschedule.IPostalCode" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">City</label>
+                                                    <input asp-for="adminReschedule.ICity" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">
+                                                <b>
+                                                    Why do you wnt to reschedule service requets?
+                                                </b>
+                                            </label>
+                                            <textarea asp-for="adminReschedule.rescheduleCmt" class="form-control" rows="4"></textarea>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">
+                                                <b>
+                                                    Call center EMP notes?
+                                                </b>
+                                            </label>
+                                            <textarea asp-for="adminReschedule.EMP" class="form-control" rows="2"></textarea>
+                                        </div>
+                                        <button type="button" id="update_@i" class="update">Update</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-footer">
+                        <p>©2018 Helperland. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+        $(document).ready(function(){
+
+            const table2 = $('#Data').DataTable();
+            let serviceObj = JSON.parse('@Html.Raw(Json.Serialize(Model.services))');
+            let addressObj = JSON.parse('@Html.Raw(Json.Serialize(Model.address))');
+            let timeobj= JSON.parse('@Html.Raw(Json.Serialize(Model.serviceStart))');
+            let dateobj = JSON.parse('@Html.Raw(Json.Serialize(Model.serviceDate))');
+
+
+            $(document).click(function(){
+                let j =0 ;
+                while(j<=@i)
+                {
+                    var id = "#drop-down_"+j;
+                    $(id).collapse('hide');
+                    j += 1;
+                }
+            });
+
+            let sId = 0;
+
+
+            $("[id^='edit_']").click(function(){
+                var a = $(this).prop('id');
+                let id = parseInt(a.split('_')[1]);
+                console.log(id);
+                $('#@Html.IdFor(m => m.adminReschedule.serviceId)').val(serviceObj[id].serviceRequestId);
+                $('#@Html.IdFor(m => m.adminReschedule.ServiceDate )').val(dateobj[id]);
+                $('#@Html.IdFor(m => m.adminReschedule.time )').val(timeobj[id]);
+                $('#@Html.IdFor(m => m.adminReschedule.AddressLine1 )').val(addressObj[id].addressLine1);
+                $('#@Html.IdFor(m => m.adminReschedule.AddressLine2 )').val(addressObj[id].addressLine2);
+                $('#@Html.IdFor(m => m.adminReschedule.PostalCode )').val(addressObj[id].postalCode);
+                $('#@Html.IdFor(m => m.adminReschedule.City )').val(addressObj[id].city);
+                $('#@Html.IdFor(m => m.adminReschedule.IAddressLine1 )').val(addressObj[id].addressLine1);
+                $('#@Html.IdFor(m => m.adminReschedule.IAddressLine2 )').val(addressObj[id].addressLine2);
+                $('#@Html.IdFor(m => m.adminReschedule.IPostalCode )').val(addressObj[id].postalCode);
+                $('#@Html.IdFor(m => m.adminReschedule.ICity )').val(addressObj[id].city);
+            });
+
+            table2.on('draw', function () {
+                $("[id^='edit_']").click(function(){
+                    var a = $(this).prop('id');
+                    let id = parseInt(a.split('_')[1]);
+                    console.log(id);
+                    $('#@Html.IdFor(m => m.adminReschedule.serviceId)').val(serviceObj[id].serviceRequestId);
+                    $('#@Html.IdFor(m => m.adminReschedule.ServiceDate )').val(dateobj[id]);
+                    $('#@Html.IdFor(m => m.adminReschedule.time )').val(timeobj[id]);
+                    $('#@Html.IdFor(m => m.adminReschedule.AddressLine1 )').val(addressObj[id].addressLine1);
+                    $('#@Html.IdFor(m => m.adminReschedule.AddressLine2 )').val(addressObj[id].addressLine2);
+                    $('#@Html.IdFor(m => m.adminReschedule.PostalCode )').val(addressObj[id].postalCode);
+                    $('#@Html.IdFor(m => m.adminReschedule.City )').val(addressObj[id].city);
+                    $('#@Html.IdFor(m => m.adminReschedule.IAddressLine1 )').val(addressObj[id].addressLine1);
+                    $('#@Html.IdFor(m => m.adminReschedule.IAddressLine2 )').val(addressObj[id].addressLine2);
+                    $('#@Html.IdFor(m => m.adminReschedule.IPostalCode )').val(addressObj[id].postalCode);
+                    $('#@Html.IdFor(m => m.adminReschedule.ICity )').val(addressObj[id].city);
+                });
+            });
+
+            $('#searchData').click(function(){
+                var serviceId = $('#serviceId').val();
+                var status = $('#status').val();
+                if(serviceId != null)
+                {
+                    table2.column([0]).search(serviceId).draw();
+                }
+                if(status != 'Status')
+                {
+                    table2.column([7]).search(status).draw();
+                }
+
+
+            });
+
+            $('#clearData').click(function(){
+                location.reload(true);
+            });
+
+
+            $("[id^='update_']").click(function(){
+
+                let model = {
+                    serviceId: $('#@Html.IdFor(m => m.adminReschedule.serviceId)').val(),
+                    ServiceDate: $('#@Html.IdFor(m => m.adminReschedule.ServiceDate)').val(),
+                    time:  $('#@Html.IdFor(m => m.adminReschedule.time)').val(),
+                    AddressLine1:  $('#@Html.IdFor(m => m.adminReschedule.AddressLine1)').val(),
+                    AddressLine2: $('#@Html.IdFor(m => m.adminReschedule.AddressLine2)').val(),
+                    PostalCode:$('#@Html.IdFor(m => m.adminReschedule.PostalCode)').val(),
+                    City: $('#@Html.IdFor(m => m.adminReschedule.City)').val(),
+                    IAddressLine1: $('#@Html.IdFor(m => m.adminReschedule.IAddressLine1)').val(),
+                    IAddressLine2: $('#@Html.IdFor(m => m.adminReschedule.IAddressLine2)').val(),
+                    IPostalCode: $('#@Html.IdFor(m => m.adminReschedule.IPostalCode)').val(),
+                    ICity: $('#@Html.IdFor(m => m.adminReschedule.ICity)').val(),
+                    rescheduleCmt: $('#@Html.IdFor(m => m.adminReschedule.rescheduleCmt)').val(),
+                    EMP: $('#@Html.IdFor(m => m.adminReschedule.EMP)').val()
+                }
+                console.log(model);
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("AdminReschedule","Admin")',
+                    data: model,
+                    dataType: 'JSON',
+                    success: function (response){
+                        if(response.success)
+                        {
+                            location.reload(true);
+                        }
+                        else
+                        {
+                            $('#EditReschedule').modal('hide');
+                            $('#YourDetailsError').html(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                          Reschedule isn't possible'
+                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>`);
+                        }
+                    }
+                });
+            });
+
+
+        });
+    </script>
+
+}

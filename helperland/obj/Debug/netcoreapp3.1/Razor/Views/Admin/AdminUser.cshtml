@@ -1,0 +1,226 @@
+﻿@model AdminViewModel
+
+@{ ViewBag.Title = "User Management";
+                ViewBag.Name = ViewBag.name;
+                Layout = "_Layout4";
+                var i = -1; }
+
+
+<!-- Menu -->
+<section class="admin-content">
+    <div class="admin-container">
+        <div class="d-flex" id="admin-user">
+            <div class="admin-menu">
+                <button class="hide navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminMenu" aria-controls="adminMenu" aria-expanded="false" aria-label="Toggle navigation" id="ham">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar" id="adminMenu">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="AdminService">Service Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">User Management</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="user-details">
+                <div class="details-container">
+                    <div class="title d-flex justify-content-between">
+                        <h2>User Management</h2>
+                        <button><img src="~/assets/add.png">Add New User</button>
+                    </div>
+                    <div class="user-search mb-2">
+                        <div class="row">
+                            <div class="col-auto mb-3">
+                                <select class="admin-form form-1 form-select" aria-label="Default select example">
+                                    <option selected>User name</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
+                            <div class="col-auto mb-3">
+                                <select id="type" class="admin-form form-2 form-select" aria-label="Default select example">
+                                    <option selected>User Type</option>
+                                    <option value="Customer">Customer</option>
+                                    <option value="ServiceProvider">Service Provider</option>
+                                    <option value="Admin">Admin</option>
+                                </select>
+                            </div>
+                            <div class="col-auto mb-3">
+                                <div class="input-group flex-nowrap">
+                                    <span class="input-group-text" id="addon-wrapping">+91</span>
+                                    <input type="text" id="mobile" class="form-3 admin-form form-control" placeholder="Phone number" aria-label="Username"
+                                           aria-describedby="addon-wrapping">
+                                </div>
+                            </div>
+                            <div class="col-auto mb-3">
+                                <div>
+                                    <input type="email" class="form-4 admin-form form-control" id="exampleFormControlInput1" placeholder="zipcode">
+                                </div>
+                            </div>
+                            <div class="form-5 col-auto mb-3">
+                                <button id="searchData" type="button" class="search btn btn-primary">Search</button>
+                            </div>
+                            <div class="form-5 col-auto mb-3">
+                                <button id="clearData" type="button" class="clear btn">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="YourDetailsError mb-2"></div>
+                    <div class="user-table">
+                        <table id="Data" class="table">
+                            <thead>
+                                <tr>
+                                    <th>User Name</th>
+                                    <th>Role</th>
+                                    <th>Date of Registration</th>
+                                    <th>User Type</th>
+                                    <th>Phone</th>
+                                    <th>Postal code</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (Model.users != null)
+                                {
+                    @foreach (var x in Model.users)
+                    {
+                        i += 1;
+    <tr id="admin" class="sort_@i">
+        <td>@x.FirstName @x.LastName</td>
+        <td></td>
+        <td>
+            <img src="~/assets/calendar2.png" class="me-2">
+            <span><b>@String.Format("{0:dd/MM/yyyy}", x.CreatedDate)</b></span>
+        </td>
+
+        @if (x.UserTypeId == 1)
+        {
+<td class="type">Customer</td>}
+        @if (x.UserTypeId == 2)
+        {
+<td class="type">ServiceProvider</td>}
+        @if (x.UserTypeId == 3)
+        {
+<td class="type">Admin</td>}
+        <td>@x.Mobile</td>
+        <td>@x.ZipCode</td>
+        <td class="button">
+            @if (@x.IsActive)
+            {
+<a id="delete_@x.UserId"><button class="green">Active</button></a> }
+                    else
+                    {
+<a id="delete_@x.UserId"><button class="pink">Inactive</button></a>}
+        </td>
+        <td>
+            <a class="drop-toggle" data-bs-toggle="collapse" href="#drop-down_@i">
+                <img src="~/assets/group-38.png" alt="">
+            </a>
+            <ul class="collapdse dropdown-menu" id="drop-down_@i">
+                <li><a>Delete</a></li>
+            </ul>
+        </td>
+    </tr>}}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="admin-footer">
+                    <p>©2018 Helperland. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function(){
+
+            const table2 = $('#Data').DataTable();
+
+            $(document).click(function(){
+                let j =0 ;
+                while(j<=@i)
+                {
+                    var id = "#drop-down_"+j;
+                    $(id).collapse('hide');
+                    j += 1;
+                }
+            });
+
+            $('#searchData').click(function(){
+                var status = $('#type').val();
+                console.log(status);
+                var number = $('#mobile').val();
+                console.log(table2.column[0]);
+                if(status != 'User Type')
+                {
+                    table2.column([3]).search(status).draw();
+                }
+                if(number != null)
+                {
+                    table2.column([4]).search(new RegExp("^"+number)).draw();
+                }
+
+            });
+
+            $('#clearData').click(function(){
+                location.reload(true);
+            });
+
+            $("[id^='delete_']").click(function(){
+                var a = $(this).prop('id');
+                sId = a.split('_')[1];
+                console.log(sId);
+                let model = {AddressId: sId}
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ActiveInActiveUser","Admin")',
+                    data: model,
+                    dataType: 'JSON',
+                    success: function (response){
+                        if(response.success)
+                        {
+                            console.log("true");
+                            location.reload(true);
+                        }
+                    }
+                });
+            });
+
+
+
+            table2.on('draw', function () {
+                $("[id^='delete_']").click(function(){
+                var a = $(this).prop('id');
+                sId = a.split('_')[1];
+                console.log(sId);
+                let model = {AddressId: sId}
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ActiveInActiveUser","Admin")',
+                    data: model,
+                    dataType: 'JSON',
+                    success: function (response){
+                        if(response.success)
+                        {
+                            console.log("true");
+                            location.reload(true);
+                        }
+                    }
+                });
+            });
+            });
+        });
+    </script>
+
+}

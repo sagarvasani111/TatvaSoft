@@ -1,0 +1,1236 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model Helperland.viewmodel.BookServiceViewModel
+@{ ViewData["Title"] = "BookService";
+                Layout = "~/Views/Shared/_PublicLayout.cshtml"; }
+
+<!--Banner section-->
+<section>
+    <img src="/assets/calculator-banner.png" class="img-fluid" alt="bookservice-banner">
+</section>
+<section class="book-service">
+    <div class="faq-section">
+        <div class="container text-center">
+            <h2>Set up your cleaning service</h2>
+            <div class="d-flex justify-content-center">
+                <div class="line1"></div>
+                <img src="/assets/forma-1-copy-5.png">
+                <div class="line2"></div>
+            </div>
+        </div>
+        <div class="book-container">
+            <div class="row">
+                <div class="part-1 col-sm-7 col-md-8">
+                    <ul class="nav nav-tabs nav-justified" id="payment-tabs">
+                        <li class="nav-item step-1">
+                            <a type="button" class="nav-link active" data-bs-toggle="tab"
+                               aria-current="page" href="#SetupService" id="SetupService-tab">
+                                <span class="details">
+                                    <span class="icon"></span>
+                                    <span class="setup-service">Setup Service</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item step-2">
+                            <a type="button" class="nav-link" aria-current="page" data-bs-toggle="tab"
+                               href="#SchedulePlan" id="SchedulePlan-tab">
+                                <span class="details">
+                                    <span class="icon"></span>
+                                    <span class="setup-service">Schedule & Plan</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item step-3">
+                            <a type="button" class="nav-link" aria-current="page" href="#YourDetails"
+                               data-bs-toggle="tab" id="YourDetails-tab">
+                                <span class="details">
+                                    <span class="icon"></span>
+                                    <span class="setup-service">Your Details</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item step-4">
+                            <a type="button" class="nav-link" aria-current="page" href="#MakePayment"
+                               data-bs-toggle="tab" id="MakePayment-tab">
+                                <span class="details">
+                                    <span class="icon"></span>
+                                    <span class="setup-service">Make Payment</span>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content">
+                        <!-- Setup Service -->
+
+                        <div class="tab-pane fade show active" id="SetupService" role="tabpanel"
+                             aria-labelledby="SetupService-tab">
+                            <form>
+                            <div class="payment-step2">
+                                <div class="room-bath">
+                                    <h3>Enter your Postal Code</h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <input asp-for="PostalCodeView.PostalCode" class="postal form-control"
+                                           placeholder="Postal code">
+                                    @*<span asp-validation-for="PostalCode" class="text-danger"></span>*@
+                                </div>
+                                <div class="col-auto">
+                                    <button type="button" id="check-btn" class="check-btn">
+                                        Check Availability
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="test" class="text-danger"></div>
+                            </form>
+                        </div>
+                       
+
+                        <!-- Schedule Plan -->
+                        <div class="tab-pane fade" id="SchedulePlan" role="tabpanel"
+                             aria-labelledby="SchedulePlan-tab">
+                            <div class="row mt-3">
+                                <div class="col-md-6 schedule-plan-1">
+                                    <div class="payment-step2">
+                                        <div class="room-bath">
+                                            <h3>When do you need cleaner?</h3>
+                                            <div class="d-flex mt-3">
+                                                <div class="dropdown me-3">
+                                                    <input asp-for="SchedulePlanView.ServiceStartDate"
+                                                           value="" class="button" placeholder="DD/MM/YYYY">
+                                                </div>
+                                                <div class="dropdown">
+                                                    <select asp-for="SchedulePlanView.StartTime"
+                                                            class="button">
+                                                        <option value="8" name="8:00" selected>8:00</option>
+                                                        <option value="8.5">8:30</option>
+                                                        <option value="9">9:00</option>
+                                                        <option value="9.5">9:30</option>
+                                                        <option value="10">10:00</option>
+                                                        <option value="10.5">10:30</option>
+                                                        <option value="11">11:00</option>
+                                                        <option value="11.5">11:30</option>
+                                                        <option value="12">12:00</option>
+                                                        <option value="12.5">12:30</option>
+                                                        <option value="13">13:00</option>
+                                                        <option value="13.5">13:30</option>
+                                                        <option value="14">14:00</option>
+                                                        <option value="14.5">14:30</option>
+                                                        <option value="15">15:00</option>
+                                                        <option value="15.5">15:30</option>
+                                                        <option value="16">16:00</option>
+                                                        <option value="16.5">16:30</option>
+                                                        <option value="17">17:00</option>
+                                                        <option value="17.5">17:30</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 schedule-plan-2">
+                                    <div class="payment-step2">
+                                        <div class="room-bath">
+                                            <h3>How long do you need your cleaner to stay?</h3>
+                                            <div class="d-flex mt-3">
+                                                <div class="dropdown me-3">
+                                                    <select asp-for="SchedulePlanView.StayTime"
+                                                            class="button">
+                                                        <option value="3" selected>3.0 hrs</option>
+                                                        <option value="3.5">3.5 hrs</option>
+                                                        <option value="4">4.0 hrs</option>
+                                                        <option value="4.5">4.5 hrs</option>
+                                                        <option value="5">5.0 hrs</option>
+                                                        <option value="5.5">5.5 hrs</option>
+                                                        <option value="6">6.0 hrs</option>
+                                                        <option value="6.5">6.5 hrs</option>
+                                                        <option value="7">7.0 hrs</option>
+                                                        <option value="7.5">7.5 hrs</option>
+                                                        <option value="8">8.0 hrs</option>
+                                                        <option value="8.5">8.5 hrs</option>
+                                                        <option value="9">9.0 hrs</option>
+                                                        <option value="9.5">9.5 hrs</option>
+                                                        <option value="10">10.0 hrs</option>
+                                                        <option value="10.5">10.5 hrs</option>
+                                                        <option value="11">11.0 hrs</option>
+                                                        <option value="11.5">11.5 hrs</option>
+                                                        <option value="12">12.0 hrs</option>
+                                                        <option value="12.5" class="hide"></option>
+                                                        <option value="13" class="hide"></option>
+                                                        <option value="13.5" class="hide"></option>
+                                                        <option value="14" class="hide"></option>
+                                                        <option value="14.5" class="hide"></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="timeLimit" class="hide text-danger mt-1">
+                                    could not completed the
+                                    service request,
+                                    because service booking request is must be completed within 21:00 time
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="extra-service">
+                                <div class="payment-step2">
+                                    <div class="room-bath">
+                                        <h3>Extra Service</h3>
+                                    </div>
+                                </div>
+                                <div class="extra-container">
+                                    <label class="extra-check">
+                                        <input id="checkbox-1" name="1" type="checkbox">
+                                        <div class="image-wrapper">
+                                            <div class="image">
+                                                <img id="img-1" src="/assets/cabinets.png" alt="">
+                                            </div>
+                                        </div>
+                                        <span>Inside cabinets</span>
+                                    </label>
+                                    <label class="extra-check">
+                                        <input id="checkbox-2" name="2" type="checkbox">
+                                        <div class="image-wrapper">
+                                            <div class="image">
+                                                <img id="img-1" src="/assets/fridge.png" alt="">
+                                            </div>
+                                        </div>
+                                        <span>Inside fridge</span>
+                                    </label>
+                                    <label class="extra-check">
+                                        <input id="checkbox-3" name="3" type="checkbox">
+                                        <div class="image-wrapper">
+                                            <div class="image">
+                                                <img id="img-1" src="/assets/oven.png" alt="">
+                                            </div>
+                                        </div>
+                                        <span>Inside oven</span>
+                                    </label>
+                                    <label class="extra-check text-center">
+                                        <input id="checkbox-4" name="4" type="checkbox">
+                                        <div class="image-wrapper">
+                                            <div class="image">
+                                                <img id="img-1" src="/assets/laundry.png" alt="">
+                                            </div>
+                                        </div>
+                                        <span>Laundry wash & dry</span>
+                                    </label>
+                                    <label class="extra-check">
+                                        <input id="checkbox-5" name="5" type="checkbox">
+                                        <div class="image-wrapper">
+                                            <div class="image">
+                                                <img id="img-1" src="/assets/windows - Copy - Copy.png" alt="">
+                                            </div>
+                                        </div>
+                                        <span>Interior windows</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="comment">
+                                <div class="payment-step2">
+                                    <div class="room-bath">
+                                        <h3>Comment</h3>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <textarea asp-for="SchedulePlanView.comment"
+                                              class="form-cmt form-control" rows="3"
+                                              placeholder="Comments"></textarea>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input asp-for="SchedulePlanView.IsPet"
+                                           class="form-check-input form-cmt" id="exampleCheck1">
+                                    <label class="form-check-label ml-3" for="exampleCheck1">
+                                        I have pets at
+                                        home
+                                    </label>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="text-end mt-2">
+                                <button type="button" id="continue-btn"
+                                        class="btn-continue">
+                                    Continue
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Your Details -->
+                        <div class="tab-pane fade" id="YourDetails" role="tabpanel"
+                             aria-labelledby="YourDetails-tab">
+                            <div id="YourDetailsError" class="mt-3">
+                            </div>
+                            <div class="payment-step2">
+                                <div class="room-bath">
+                                    <h3>Enter your contact details, so we can serve you in better way!</h3>
+                                    <div id="xyz"></div>
+                                </div>
+                            </div>
+                            <div class="address-container mt-3">
+                                <form>
+                                    <div class="address">
+                                        <ul id="Address">
+                                        </ul>
+                                        <div class="add-address" id="AddAddressForm">
+                                            <form class="mb-0">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Street name</label>
+                                                            <input asp-for="UserAddress.AddressLine1"
+                                                                   class="form-control"
+                                                                   placeholder="Street name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">House number</label>
+                                                            <input asp-for="UserAddress.AddressLine2"
+                                                                   class="form-control"
+                                                                   placeholder="House number">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Postal code</label>
+                                                            <input asp-for="UserAddress.PostalCode" readonly
+                                                                   class="form-control" value="360002">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">City</label>
+                                                            <select asp-for="UserAddress.City"
+                                                                    class="form-select">
+                                                                <option selected>Bonn</option>
+                                                                <option value="1">Bonn</option>
+                                                                <option value="2">Bonn</option>
+                                                                <option value="3">Bonn</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Phone number</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-text">+91</div>
+                                                                <input asp-for="UserAddress.Mobile"
+                                                                       class="form-control"
+                                                                       placeholder="Phone number">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="mb-3">
+                                                            <button type="button" class="submit-btn save"
+                                                                    id="AddAddressSave">
+                                                                Save
+                                                            </button>
+                                                            <button type="button" class="submit-btn cancel"
+                                                                    id="AddAddressCancel">
+                                                                Cancel
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <input type="button" id="AddAddressButton" value="+ Add New Address"
+                                               class="address-btn mt-1">
+                                        <div class="comment">
+                                            <div class="mt-4 form-check">
+                                                <input type="checkbox" class="form-check-input form-cmt"
+                                                       id="InvoiceCheckbox">
+                                                <label class="form-check-label ml-3"
+                                                       for="exampleCheck1">
+                                                    Send invoices to this
+                                                    address
+                                                </label>
+                                            </div>
+                                            <div id="invoice-form" class="hide mt-3">
+                                                <div class="add-address" id="AddAddressForm">
+                                                    <form class="mb-0">
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">
+                                                                        Street
+                                                                        name
+                                                                    </label>
+                                                                    <input type="text" class="form-control"
+                                                                           placeholder="Street name">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">
+                                                                        House
+                                                                        number
+                                                                    </label>
+                                                                    <input type="text" class="form-control"
+                                                                           placeholder="House number">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">
+                                                                        Postal
+                                                                        code
+                                                                    </label>
+                                                                    <input type="text" readonly
+                                                                           class="form-control" value="53225">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">City</label>
+                                                                    <select class="form-select">
+                                                                        <option selected>Bonn</option>
+                                                                        <option value="1">Bonn</option>
+                                                                        <option value="2">Bonn</option>
+                                                                        <option value="3">Bonn</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <div class="mb-3">
+                                                                    <button type="submit"
+                                                                            class="submit-btn save"
+                                                                            id="InvoiceAddressSave">
+                                                                        Save
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="mb-3">
+                                        <div class="text-end mt-2">
+                                            <button type="button" id="continue-btn2"
+                                                    class="btn-continue">
+                                                Continue
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Complete Booking -->
+                        <div class="tab-pane fade" id="MakePayment" role="tabpanel"
+                             aria-labelledby="MakePayment-tab">
+                            <div class="make-payment">
+                                <div class="payment-step2 mb-3">
+                                    <div class="room-bath">
+                                        <h3>Pay securely with Helperland payment gateway!</h3>
+                                    </div>
+                                </div>
+                                <span>Promo code(optional)</span>
+                                <form class="row mt-2">
+                                    <div class="col-auto mb-3">
+                                        <input type="text" class="form-control"
+                                               placeholder="Promo code(optional)">
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="submit" class="apply-btn">Apply</button>
+                                    </div>
+                                </form>
+                                <hr>
+                                <div class="card-details">
+                                    <div class="card-ip">
+                                        <iframe name="__privateStripeFrame52510" frameborder="0"
+                                                allowtransparency="true" scrolling="no" allow="payment *"
+                                                src="https://js.stripe.com/v3/elements-inner-card-6f95dd34a5c89aae610bcf619d0b2112.html#locale=en&amp;wait=false&amp;mids[guid]=26be9e97-86fa-42b9-a15e-5580bc4b93c6697bcd&amp;mids[muid]=b9c63c2a-e1e3-4391-af0e-035491e42cff6f2065&amp;mids[sid]=50a9fbe1-5a7d-44fa-bb11-fabf27d5d426d48d0d&amp;hidePostalCode=true&amp;style[base][iconColor]=%23666EE8&amp;style[base][color]=%2331325F&amp;style[base][lineHeight]=36px&amp;style[base][fontSize]=16px&amp;style[base][::placeholder][color]=%23c5c5c5&amp;rtl=false&amp;componentName=card&amp;keyMode=test&amp;apiKey=pk_test_CbN2mTsadzVC1WpDPDgcDWbG&amp;referrer=https%3A%2F%2Fweb1.anasource.com%2Ftrainee2021%2Fbook-service&amp;controllerId=__privateStripeController5256"
+                                                title="Secure card payment input frame"
+                                                style="border: none !important; margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; user-select: none !important; transform: translate(0px) !important; height: 36px;"></iframe>
+                                    </div>
+                                    <div class="card-accepted text-end mt-4">
+                                        <span class="text">Accepted cards:</span>
+                                        <span class="image">
+                                            <img src="/assets/card (1).png">
+                                            <img src="/assets/card (2).png">
+                                            <img src="/assets/card (3).png">
+                                        </span>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="comment">
+                                    <div class="mt-3 form-check">
+                                        <input type="checkbox" class="form-check-input form-cmt" id="Terms">
+                                        <label class="form-check-label ml-3" for="exampleCheck1">
+                                            I accepted
+                                            <a href="#">
+                                                terms and
+                                                conditions
+                                            </a>, the <a href="#">cancellation policy</a> and
+                                            the <a href="#">
+                                                privacy
+                                                policy
+                                            </a>. I confirm that Helperland starts to execute the
+                                            contract before the
+                                            expiry of the withdrawal period and I lose my right of
+                                            withdrawal as a consumer with
+                                            full performance of the contract.
+                                        </label>
+                                        <div id="checkrequired" class="text-danger"></div>
+                                    </div>
+
+                                </div>
+                                <hr>
+                                <div class="text-end mt-2">
+                                    <button type="button" id="complete-btn" class="btn-continue">
+                                        Complete
+                                        Booking
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-5 col-md-4 payment">
+                    <div class="payment-details">
+                        <button class="hide modal-btn" data-bs-toggle="modal"
+                                data-bs-target="#payment-modal" id="modal-button">
+                            Payment Summary
+                            54.00&euro;
+                        </button>
+                        <div class="payment-info" id="payment-modal">
+                            <div class="title">
+                                <h3>Payment Summary</h3>
+                                <a class="hide" data-bs-dismiss="modal" id="modal-close">
+                                    <img src="/assets/close.png">
+                                </a>
+                            </div>
+
+                            <div class="payment-content">
+                                <span id="StartTime"></span>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Duration</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Basic</td>
+                                            <td id="serviceTime"></td>
+                                        </tr>
+                                        <tr id="extra" class="hide">
+                                            <th>Extras</th>
+                                            <td></td>
+                                        </tr>
+                                        <tr id="extra-1" class="hide">
+                                            <td>Inside cabinets</td>
+                                            <td>30 min.</td>
+                                        </tr>
+                                        <tr id="extra-2" class="hide">
+                                            <td>Inside fridge</td>
+                                            <td>30 min.</td>
+                                        </tr>
+                                        <tr id="extra-3" class="hide">
+                                            <td>Inside oven</td>
+                                            <td>30 min.</td>
+                                        </tr>
+                                        <tr id="extra-4" class="hide">
+                                            <td>Laundry wash & dry</td>
+                                            <td>30 min.</td>
+                                        </tr>
+                                        <tr id="extra-5" class="hide">
+                                            <td>Interior window</td>
+                                            <td>30 min.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><b>Total Service Time</b></td>
+                                            <td><b id="totalServiceTime"></b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="payment-content">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>Per cleaning</td>
+                                            <td><b id="totalCost"></b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="payment-content total">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>Total Payment</td>
+                                            <td id="totalPayment"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-start mt-1" colspan="2">
+                                                <p>According to § 19 UStG no sales tax is calculated.</p>
+                                            </td>
+                                        </tr>
+                                        <tr class="price">
+                                            <td>Effective Price</td>
+                                            <td><b id="effectivePrice"></b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p>
+                                    <a data-bs-dismiss="modal" data-bs-toggle="modal"
+                                       data-bs-target="#SaveModal">
+                                        <span>*</span>You will save 20%
+                                        according to
+                                        §35a EStG.
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="modal fade" id="SaveModal" data-bs-backdrop="static">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <h4>You will save 20% according to §35a EStG.</h4>
+                                            <button type="button" class="close-btn" data-bs-dismiss="modal"
+                                                    aria-label="Close">
+                                                <img src="/assets/close.png">
+                                            </button>
+
+                                            <p>
+                                                Our helpers help you with tax savings! Parts of the costs for
+                                                household tasks recognize
+                                                the tax
+                                                office as a tax advantage. Assuming you are a private
+                                                client, you have received an
+                                                invoice and have
+                                                not paid it in cash. You can deduct 20% of the expenses
+                                                directly from your tax
+                                                liability, a maximum
+                                                of 4,000 euros per year.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="payment-footer">
+                                <img alt="smiley" src="/assets/smiley.png">
+                                <a data-bs-dismiss="modal" data-bs-toggle="modal"
+                                   data-bs-target="#WhatWeInclude">See what is always included</a>
+                            </div>
+                            <div class="modal fade" id="WhatWeInclude" data-bs-backdrop="static"
+                                 data-bs-keyboard="false" tabindex="-1" aria-labelledby="WhatWeIncludeLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <h4>You will save 20% according to §35a EStG.</h4>
+                                            <button type="button" class="close-btn" data-bs-dismiss="modal"
+                                                    aria-label="Close">
+                                                <img src="/assets/close.png">
+                                            </button>
+
+                                            <p>
+                                                Our helpers help you with tax savings! Parts of the costs for
+                                                household tasks recognize
+                                                the tax
+                                                office as a tax advantage. Assuming you are a private
+                                                client, you have received an
+                                                invoice and have
+                                                not paid it in cash. You can deduct 20% of the expenses
+                                                directly from your tax
+                                                liability, a maximum
+                                                of 4,000 euros per year.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="payment-faq">
+                            <h3>Questions?</h3>
+                            <div class="questions" id=WhatInclude>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <a data-bs-toggle="collapse" href="#question1">
+                                            <img src="/assets/right-arrow-dark.png">
+                                            What's include in cleaning?
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="panel-collapse collapse" id="question1" aria-expanded="false">
+                                    <div class="panel-body">
+                                        Bedroom, Living Room & Common Areas,Bathrooms,Kitchen,Extras
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <a data-bs-toggle="collapse" href="#question2">
+                                            <img src="/assets/right-arrow-dark.png">
+                                            Which Helperland professional will come to my place?
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="panel-collapse collapse" id="question2" aria-expanded="false">
+                                    <div class="panel-body">
+                                        Helperland has a vast network of experienced, top-rated cleaners.
+                                        Based on the time and date of your request, we work to assign the
+                                        best professional available.Like working with a specific pro? Add
+                                        them to your Pro Team from the mobile app and they'll be requested
+                                        first for all future bookings.You will receive an email with details
+                                        about your professional prior to your appointment.
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <a data-bs-toggle="collapse" href="#question3">
+                                            <img src="/assets/right-arrow-dark.png">
+                                            Can I skip or reschedule bookings?
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="panel-collapse collapse" id="question3" aria-expanded="false">
+                                    <div class="panel-body">
+                                        You can reschedule any booking for free at least 24 hours in advance
+                                        of the scheduled start time. If you need to skip a booking within
+                                        the minimum commitment, we’ll credit the value of the booking to
+                                        your account. You can use this credit on future cleanings and other
+                                        Helperland services.
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <a class="faq-link">For more help</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="modal fade" id="SucessBooking" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <img src="/assets/yes-tickmark.png" />
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Booking has been succesfully submitted</p>
+                <p id="p1">Service request id : <span id="serviceId"></span></p>
+            </div>
+            <div class="modal-footer">
+                <a asp-action="Index" asp-controller="Home"><button type="button" class="btn btn-primary">Ok</button></a>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="our-news-letter">
+    <div class="container text-center">
+
+        <h2 class="news-letter">GET OUR NEWSLETTER</h2>
+        <div class="form-row d-flex justify-content-center align-items-center">
+            <div class="form-group">
+                <label for="email" style="display: none;">YOUR EMAIL</label>
+                <input type="text" placeholder="YOUR EMAIL" id="email" class="form-control email">
+            </div>
+            <div class="btn-wrapper">
+                <button type="submit" class="red-btn">Submit</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+        $(document).ready(function(){
+
+            //Setup Service
+            $('#check-btn').click(function () {
+                var model = { PostalCode : $('#@Html.IdFor(m => m.PostalCodeView.PostalCode)').val()};
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ZipCodeCheck", "BookService")',
+                    data: model,
+                    dataType: 'JSON',
+                    success: function (response) {
+                        if(response)
+                        {
+                            $('#test').html('');
+                            $('#SchedulePlan-tab').removeClass('disabled').addClass('active');
+                            $('#SetupService-tab').removeClass('active').addClass('active-after');
+                            $('#SetupService').removeClass('show active');
+                            $('#SchedulePlan').addClass('show active');
+                        }
+                        else
+                        {
+                            alert("Enter valid Zipcode");
+                        }
+                    },
+                    error: function(){
+
+                    }
+                });
+            });
+
+            var SchedulePlan = {
+                "time" : "8",
+                "stay" : "3",
+                "totalCost" : "0",
+                "effective" : "0"
+            }
+
+            var extraServices = [false,false,false,false,false]
+
+            SchedulePlan.time = $('#@Html.IdFor(m => m.SchedulePlanView.StartTime)').val();
+            SchedulePlan.stay = $('#@Html.IdFor(m => m.SchedulePlanView.StayTime)').val();
+            SchedulePlan.totalCost = (parseFloat(SchedulePlan.stay) * 18).toFixed(2);
+            SchedulePlan.effective = (parseFloat(SchedulePlan.totalCost) * 0.8).toFixed(2);
+
+            setStartTime(SchedulePlan.time);
+            $('#serviceTime').html(SchedulePlan.stay+" Hrs");
+            $('#totalServiceTime').html(SchedulePlan.stay+" Hrs");
+            $('#totalCost').html(SchedulePlan.totalCost+ " &euro;");
+            $('#totalPayment').html(SchedulePlan.totalCost+ " &euro;");
+            $('#effectivePrice').html(SchedulePlan.effective+" &euro;");
+
+            function setStartTime(t){
+                    var b = parseFloat(t);
+                    b = b*10;
+                    if(b%10 != 0)
+                    {
+                        var c = Math.floor(b/10).toString();
+                        if(c<10){
+                            $('#StartTime').html("0"+c+":30");
+                        }
+                        else{
+                            $('#StartTime').html(c+":30");
+                        }
+                    }
+                    else
+                    {
+                         var c = (b/10).toString();
+                         if(c<10){
+                            $('#StartTime').html("0"+c+":00");
+                        }
+                        else{
+                            $('#StartTime').html(c+":00");
+                        }
+                    }
+            }
+
+
+            $('#@Html.IdFor(m => m.SchedulePlanView.StartTime)').on("change",function(){
+                SchedulePlan.time = $(this).val();
+                setStartTime(SchedulePlan.time);
+                SchedulePlan.time = parseFloat(SchedulePlan.time);
+                SchedulePlan.stay = parseFloat($('#@Html.IdFor(m => m.SchedulePlanView.StayTime)').val());
+
+                if((SchedulePlan.time+SchedulePlan.stay) > 21)
+                {
+                    $('#timeLimit').removeClass('hide');
+                }
+                else
+                {
+                    $('#timeLimit').addClass('hide');
+                }
+
+            });
+
+            $('#@Html.IdFor(m => m.SchedulePlanView.StayTime)').on("change",function(){
+                SchedulePlan.time = $('#@Html.IdFor(m => m.SchedulePlanView.StartTime)').val();
+                setStartTime(SchedulePlan.time);
+                SchedulePlan.stay = $(this).val();
+                var check = parseFloat(SchedulePlan.time) + parseFloat(SchedulePlan.stay);
+                if(check > 21)
+                {
+                    $('#timeLimit').removeClass('hide');
+                }
+                else
+                {
+                    $('#timeLimit').addClass('hide');
+                }
+
+                SchedulePlan.totalCost = ((parseFloat(SchedulePlan.stay)) * 18).toFixed(2);
+                SchedulePlan.effective = (SchedulePlan.totalCost * 0.8).toFixed(2);
+
+                if(!($('#checkbox-1').prop('checked')) && !($('#checkbox-2').prop('checked'))  && !($('#checkbox-3').prop('checked'))
+                     && !($('#checkbox-4').prop('checked'))  && !($('#checkbox-5').prop('checked')))
+                {
+                    $('#serviceTime').html(SchedulePlan.stay+" Hrs");
+                }
+
+                $('#totalServiceTime').html(SchedulePlan.stay+" Hrs");
+                $('#totalCost').html(SchedulePlan.totalCost+ " &euro;");
+                $('#totalPayment').html(SchedulePlan.totalCost+ " &euro;");
+                $('#effectivePrice').html(SchedulePlan.effective+" &euro;");
+            });
+
+            $('#@Html.IdFor(m => m.SchedulePlanView.StayTime)').on("click",function(){
+                SchedulePlan.time = $('#@Html.IdFor(m => m.SchedulePlanView.StartTime)').val();
+                setStartTime(SchedulePlan.time);
+                SchedulePlan.stay = $(this).val();
+                if(SchedulePlan.stay != null){
+                var check = parseFloat(SchedulePlan.time) + parseFloat(SchedulePlan.stay);
+                if(check > 21)
+                {
+                    $('#timeLimit').removeClass('hide');
+                }
+                else
+                {
+                    $('#timeLimit').addClass('hide');
+                }
+                SchedulePlan.totalCost = ((parseFloat(SchedulePlan.stay)) * 18).toFixed(2);
+                SchedulePlan.effective = (SchedulePlan.totalCost * 0.8).toFixed(2);
+                var x =0;
+                if($('#checkbox-1').prop('checked')){x+=0.5;}
+                if($('#checkbox-2').prop('checked')){x+=0.5;}
+                if($('#checkbox-3').prop('checked')){x+=0.5;}
+                if($('#checkbox-4').prop('checked')){x+=0.5;}
+                if($('#checkbox-4').prop('checked')){x+=0.5;}
+                if(x>0)
+                {
+                    var z = parseFloat(SchedulePlan.stay)-x;
+                    $('#serviceTime').html(z+" Hrs");
+                }
+                $('#totalServiceTime').html(SchedulePlan.stay+" Hrs");
+                $('#totalCost').html(SchedulePlan.totalCost+ " &euro;");
+                $('#totalPayment').html(SchedulePlan.totalCost+ " &euro;");
+                $('#effectivePrice').html(SchedulePlan.effective+" &euro;");
+                }
+            });
+
+            $('#checkbox-1').click(function () {
+                var a = $('#checkbox-1');
+                extraitem(a,0);
+            });
+            $('#checkbox-2').click(function () {
+                var a = $('#checkbox-2');
+                extraitem(a,1);
+            });
+            $('#checkbox-3').click(function () {
+                var a = $('#checkbox-3');
+                extraitem(a,2);
+            });
+            $('#checkbox-4').click(function () {
+                var a = $('#checkbox-4');
+                extraitem(a,3);
+            });
+            $('#checkbox-5').click(function () {
+                var a = $('#checkbox-5');
+                extraitem(a,4);
+            });
+
+            function extraitem(a,b)
+            {
+                 if (a.prop('checked')){
+                    extraServices[b] = true;
+                    SchedulePlan.time =$('#@Html.IdFor(m => m.SchedulePlanView.StartTime)').val();
+                    SchedulePlan.stay = $('#@Html.IdFor(m => m.SchedulePlanView.StayTime)').val();
+                    var check = parseFloat(SchedulePlan.time) + parseFloat(SchedulePlan.stay);
+                    if((check+0.5) > 21)
+                    {
+                        $('#timeLimit').removeClass('hide');
+                    }
+                    else
+                    {
+                        $('#timeLimit').addClass('hide');
+                    }
+                    var stayTime = parseFloat(SchedulePlan.stay) + 0.5;
+                    $('#@Html.IdFor(m => m.SchedulePlanView.StayTime)').val(stayTime).change();
+                    $('#totalServiceTime').html((stayTime)+" Hrs");
+                    SchedulePlan.totalCost = (stayTime* 18).toFixed(2);
+                    $('#totalCost').html(SchedulePlan.totalCost+ " &euro;");
+                    $('#totalPayment').html(SchedulePlan.totalCost+ " &euro;");
+                    SchedulePlan.effective = (SchedulePlan.totalCost * 0.8).toFixed(2);
+                    $('#effectivePrice').html(SchedulePlan.effective+" &euro;");
+                }
+                else
+                {
+                    extraServices[b] = false;
+                    SchedulePlan.time =$('#@Html.IdFor(m => m.SchedulePlanView.StartTime)').val();
+                    SchedulePlan.stay =$('#@Html.IdFor(m => m.SchedulePlanView.StayTime)').val();
+                    var check = parseFloat(SchedulePlan.time) + parseFloat(SchedulePlan.stay);
+                    if((check-0.5) > 21)
+                    {
+                        $('#timeLimit').removeClass('hide');
+                    }
+                    else
+                    {
+                        $('#timeLimit').addClass('hide');
+                    }
+                    var stayTime = parseFloat(SchedulePlan.stay) - 0.5;
+                    $('#@Html.IdFor(m => m.SchedulePlanView.StayTime)').val(stayTime).change();
+                    $('#totalServiceTime').html((stayTime)+" Hrs");
+                    SchedulePlan.totalCost = (stayTime* 18).toFixed(2);
+                    $('#totalCost').html(SchedulePlan.totalCost+ " &euro;");
+                    $('#totalPayment').html(SchedulePlan.totalCost+ " &euro;");
+                    SchedulePlan.effective = (SchedulePlan.totalCost * 0.8).toFixed(2);
+                    $('#effectivePrice').html(SchedulePlan.effective+" &euro;");
+                }
+            }
+
+
+            $('#continue-btn').click(function () {
+                let model1 = {
+                    ServiceStartDate : $('#@Html.IdFor(m => m.SchedulePlanView.ServiceStartDate)').val(),
+                    StartTime : $('#@Html.IdFor(m => m.SchedulePlanView.StartTime)').val(),
+                    StayTime : $('#@Html.IdFor(m => m.SchedulePlanView.StayTime)').val(),
+                    TotalTime: SchedulePlan.stay,
+                    TotalCost: SchedulePlan.totalCost,
+                    EffctiveCost: SchedulePlan.effective,
+                    Extra: extraServices,
+                    comment: $('#@Html.IdFor(m => m.SchedulePlanView.comment)').val(),
+                    IsPet : $('#@Html.IdFor(m => m.SchedulePlanView.IsPet)').is(':checked')
+                };
+                console.log(model1);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SchedulePlan","BookService")',
+                    data: model1,
+                    dataType: 'JSON',
+                    success: function (response) {
+
+                        if (response) {
+                            AddAddresses = response.addresses;
+                            console.log(AddAddresses);
+                            showAddresses();
+                            $('#YourDetails-tab').removeClass('disabled').addClass('active');
+                            $('#SchedulePlan-tab').removeClass('active').addClass('active-after');
+                            $('#SchedulePlan').removeClass('show active')
+                            $('#YourDetails').addClass('show active');
+                        }
+                        else {
+                            alert("Enter valid details");
+                        }
+                    },
+                    error: function(e){
+                        debugger;
+                    }
+                });
+            });
+
+            function AddAddressesHtml(id,addressline1,addressline2,city,mobile,zipcode)
+            {
+                 return (`<li class="mb-3">
+                        <label>
+                            <input type="radio" id="address_${id}" value="${id}" name="address">
+                            <span class="address-1"><b>Address: </b>${addressline1} ${addressline2}, ${city} ${zipcode}</span>
+                            <span><b>Phone number:</b> ${mobile}</span>
+                            <span class="address-check"></span>
+                        </label>
+                    </li>`)
+            }
+
+            function showAddresses()
+            {
+                var s = "";
+                for(let i=0; i<AddAddresses.length; i++)
+                {
+                    console.log(AddAddresses[i]);
+                    s += AddAddressesHtml(i+1,AddAddresses[i].addressLine1, AddAddresses[i].addressLine2,AddAddresses[i].city,
+                        AddAddresses[i].mobile,AddAddresses[i].postalCode);
+                }
+
+                $('#Address').html(s);
+            }
+
+            //Your Details
+            let AddAddresses =[];
+            let check ;
+            $('#AddAddressSave').click(function(){
+                let AddressModel = {
+                    AddressLine1 : $('#@Html.IdFor(m => m.UserAddress.AddressLine1)').val(),
+                    AddressLine2 : $('#@Html.IdFor(m => m.UserAddress.AddressLine2)').val(),
+                    PostalCode : $('#@Html.IdFor(m => m.UserAddress.PostalCode)').val(),
+                    Mobile:  $('#@Html.IdFor(m => m.UserAddress.Mobile)').val(),
+                    City :  $('#@Html.IdFor(m => m.UserAddress.City)').val()
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("AddAddress","BookService")',
+                    data: AddressModel,
+                    dataType: 'JSON',
+                    success: function (response) {
+                        if(response.success)
+                        {
+                            AddAddresses = response.addresses;
+                            console.log(AddAddresses);
+                            showAddresses();
+                            $('#AddAddressForm').removeClass('show');
+                            $('#AddAddressForm').addClass('hide');
+                            $('#AddAddressButton').removeClass('hide');
+
+                        }
+                    },
+                    error: function(){
+
+                    }
+                });
+            });
+
+            $('#continue-btn2').click(function(){
+
+                if($('input[name="address"]').is(':checked'))
+                {
+                    check = $('input[name="address"]:checked').val();
+                    console.log(check);
+                    $('#YourDetailsError').html("");
+                    $('#payment-tabs li a').next().removeClass('active-after');
+                    $('#MakePayment-tab').removeClass('disabled').addClass('active');
+                    $('#YourDetails-tab').removeClass('active').addClass('active-after');
+                    $('#YourDetails').removeClass('show active')
+                    $('#MakePayment').addClass('show active');
+
+                }
+                else
+                {
+                    $('#YourDetailsError').html(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                          Please Select Address
+                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>`);
+                }
+            });
+            debugger;
+
+            //Complete Booking
+
+            $('#complete-btn').click(function(){
+                var z = parseFloat(SchedulePlan.stay) - parseFloat($('#@Html.IdFor(m => m.SchedulePlanView.StayTime)').val());
+                let model1 = {PostalCode : $('#@Html.IdFor(m => m.PostalCodeView.PostalCode)').val()};
+                let model2 = {
+                    ServiceStartDate : $('#@Html.IdFor(m => m.SchedulePlanView.ServiceStartDate)').val(),
+                    StartTime : $('#@Html.IdFor(m => m.SchedulePlanView.StartTime)').val(),
+                    StayTime : $('#@Html.IdFor(m => m.SchedulePlanView.StayTime)').val(),
+                    TotalTime: SchedulePlan.stay,
+                    TotalCost: SchedulePlan.totalCost,
+                    EffctiveCost: SchedulePlan.effective,
+                    Extra: extraServices,
+                    comment: $('#@Html.IdFor(m => m.SchedulePlanView.comment)').val(),
+                    IsPet : $('#@Html.IdFor(m => m.SchedulePlanView.IsPet)').is(':checked')
+                }
+                let model3 = {
+                    AddressLine1 : AddAddresses[check-1].addressLine1,
+                    AddressLine2 :AddAddresses[check-1].addressLine2,
+                    PostalCode : AddAddresses[check-1].postalCode,
+                    Mobile:  AddAddresses[check-1].mobile,
+                    City :  AddAddresses[check-1].city
+                }
+                let CompleteModel ={
+                    PostalCodeView : model1,
+                    SchedulePlanView : model2,
+                    userAddress: model3
+                }
+                if($('#Terms').prop('checked'))
+                {
+                    $('#checkrequired').html('');
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("CompleteBooking","BookService")',
+                        data: CompleteModel,
+                        dataType: 'JSON',
+                        success: function(response){
+                            if(response.success)
+                            {
+                                $('#serviceId').html(response.serviceId);
+                                $('#SucessBooking').modal('show');
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    $('#checkrequired').html('Required');
+                }
+            });
+        });
+    </script>
+    @if (HttpContextAccessor.HttpContext.Session.GetString("zipcode") != null)
+    {
+<script>
+            var userpostalcode = @HttpContextAccessor.HttpContext.Session.GetString("zipcode");
+            console.log("this is called " + userpostalcode);
+            $('#add_postal').val(userpostalcode);
+            $('#add_postal').attr('disabled', 'disabled');
+</script>}
+    @if (HttpContextAccessor.HttpContext.Session.GetString("ss_step_2") == "notset")
+    {
+@if (ViewBag.foundsp != null)
+{
+<script>
+
+    var nospModal = new bootstrap.Modal(document.getElementById("nospModal"), {});
+    document.onreadystatechange = function () {
+        nospModal.show();
+    };
+</script>}
+                    @if (ViewBag.foundsp == null)
+                    {
+<script>
+    $(function () {
+        $('.postal_check_btn').click();
+    });
+    $(document).on('click', '.postal_check_btn', function () {
+
+        $(".ss_step_1").addClass('fade');
+        $(".ss_step_2").removeClass('fade');
+        $(".col-step-1").removeClass('active_tab');
+        $(".col-step-2").addClass('active').addClass('active_tab');
+        step_2_img.src = "/images/schedule-plan.png";
+        progress_step_2 = 1;
+        console.log("this is progress step 2" + progress_step_2);
+        //set date to be disable before today & set time
+        var today = new Date();
+        today.setHours(today.getHours() + 2);
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+        var hr = today.getHours();
+        var minit = today.getMinutes();
+
+        var max_time = hr + ':' + minit;
+        $('#service_time').val(max_time);
+
+        var max_date = yyyy + '-' + mm + '-' + dd;
+        $('#service_date').attr('min', max_date);
+
+    });
+</script>}}
+}
+
+
+
+
+
