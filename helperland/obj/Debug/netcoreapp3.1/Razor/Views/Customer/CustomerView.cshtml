@@ -1,0 +1,516 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Service History";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    var CancelId = 0;
+    var CancelId1 = 0;
+}
+
+@model HelperLand.ViewModels.DashboardViewModel
+
+<section class="welcome-section">
+    <div class="d-flex justify-content-center">
+        <h1 class="welcome-header">Welcome, <span class="welcome-sandip">Sagar !</span></h1>
+    </div>
+</section>
+<section class="service-section">
+    <div class="container container-fluid d-flex justify-content-center">
+        <div class="content">
+            <input type="radio" name="slider" checked id="dashboard" style="display: none;">
+            <input type="radio" name="slider" id="service-history" style="display: none;">
+            <input type="radio" name="slider" id="service-schedule" style="display: none;">
+            <input type="radio" name="slider" id="favourite-pros" style="display: none;">
+            <input type="radio" name="slider" id="invoices" style="display: none;">
+            <input type="radio" name="slider" id="notifications" style="display: none;">
+
+            <div class="list">
+                <label for="dashboard" class="dashboard">
+                    <span class="title">Dashboard</span>
+                </label>
+                <label for="service-history" class="service-history">
+                    <span class="title">Service History</span>
+                </label>
+                <label for="service-schedule" class="service-schedule">
+                    <span class="title">Service Schedule</span>
+                </label>
+                <label for="favourite-pros" class="favourite-pros">
+                    <span class="title">Favourite Pros</span>
+                </label>
+                <label for="invoices" class="invoices">
+                    <span class="title">Invoices</span>
+                </label>
+                <label for="notifications" class="notifications">
+                    <span class="title">Notifications</span>
+                </label>
+
+                <div class="slider"></div>
+            </div>
+            <div class="text-content">
+                <div class="dashboard text">
+                    <span class="service-header">Current Service Requests</span>
+                    <a asp-action="BookService" asp-controller="BookService"><span class="export">Add New Service Request</span></a>
+                    <div class="table-responsive mt-3">
+                        <table class="table">
+                            <thead>
+                                <tr class="table-heading">
+                                    <th scope="col">Service Id</th>
+                                    <th scope="col">Service Date</th>
+                                    <th scope="col">Service Provider</th>
+                                    <th scope="col">Payment</th>
+                                    <th scope="col" class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.dashboardData)
+                                {
+                                    CancelId = CancelId + 1;
+                                    var x = "#Cancel" + CancelId;
+                                    <tr data-bs-toggle="modal" data-bs-target="#row1">
+                                        <td>@Html.DisplayFor(modelItem => item.ServiceId)</td>
+                                        <td>
+                                            <a href="#"><img src="~/assets/calendar.png"></a>
+                                            <span class="date">@Html.DisplayFor(modelItem => item.ServiceStartDate)</span>
+                                            <br>
+                                            <span><img src="/assets/clock-blue.png">@Html.DisplayFor(modelItem => item.ServiceHours) 12:00 - 18:00</span>
+                                        </td>
+                                        <td></td>
+                                        <td class="euro">
+                                            @Html.DisplayFor(modelItem => item.TotalCost) &euro;
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger export1 mx-3" data-bs-toggle="modal" data-bs-target=@x>Cancle</button>
+                                            <button class="btn btn-primary export" data-bs-toggle="modal" data-bs-target="#Reschedule">Reschedule</button>
+
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        <form asp-action="CancelService" asp-controller="Customer" method="post">
+                            @foreach (var item in Model.dashboardData)
+                            {
+                                CancelId1 = CancelId1 + 1;
+                                var z = "Cancel" + CancelId1;
+                                <div class="modal fade" id=@z data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Cancle Service Request </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Why you want to cancle the service request</p>
+                                                <div class="form-floating">
+                                                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                                                </div>
+                                            </div>
+                                            <input asp-for="CancelServiceId" value=@item.ServiceRequestId />
+                                            <button type="submit" class="btn btn-primary export m-3">Cancle Now</button>
+                                        </div>
+                                    </div>
+                                </div>}
+                        </form>
+                    </div>
+
+
+                    <div class="d-flex flex-row">
+                        <div class="show">Show</div>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary button-dd dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                10
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="#">20</a></li>
+                                <li><a class="dropdown-item" href="#">30</a></li>
+                                <li><a class="dropdown-item" href="#">40</a></li>
+                                <li><a class="dropdown-item" href="#">50</a></li>
+                                <li><a class="dropdown-item" href="#">55</a></li>
+                            </ul>
+                        </div>
+                        <span class="show">entries</span>
+                        <span class="show">Total Record: 55</span>
+
+                        <div class="d-flex justify-content-end">
+                            <a href="#"><i class="fa fa-step-backward chng-arw"></i></a>
+                            <a href="#"><i class="fa fa-angle-left chng-arw"></i></a>
+                            <span class="chng-num"><a href="#">1</a></span>
+                            <span class="chng-num"><a href="#">2</a></span>
+                            <span class="chng-num"><a href="#">3</a></span>
+                            <span class="chng-num"><a href="#">4</a></span>
+                            <a href="#"><i class="fa fa-angle-right chng-arw"></i></a>
+                            <a href="#"><i class="fa fa-step-forward chng-arw"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-history text">
+                    <span class="service-header">Service History</span>
+                    <span class="export">Export</span>
+                    <table class="table">
+                        <thead>
+                            <tr class="table-heading">
+                                <th scope="col">Service Id</th>
+                                <th scope="col">Service Date</th>
+                                <th scope="col">Service Provider</th>
+                                <th scope="col">Payment</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Rate SP </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.serviceHistory)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.ServiceId)</td>
+                                    <td>
+                                        <a href="#"><img src="~/assets/calendar.png"></a>
+                                        <span class="date">@Html.DisplayFor(modelItem => item.ServiceStartDate)</span>
+                                        <br>
+                                        <span><img src="~/assets/clock-blue.png">@Html.DisplayFor(modelItem => item.ServiceStartDate) 12:00 - 18:00</span>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td class="euro">
+                                        @Html.DisplayFor(modelItem => item.TotalCost) &euro;
+                                    </td>
+                                    <td>
+                                        <span class="btn btn-primary cancelled">
+                                            <a href="#">Cancelled</a>
+                                        </span>
+                                    </td>
+                                    <td><span class="btn btn-primary rate-sp" data-bs-toggle="modal" data-bs-target="#rateSp">Rate SP</span></td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                    <div class="modal fade" id="rateSp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        <img src="/assets/avatar-hat.png" />Sandip Patel
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                                </div>
+                                <h5 class="m-3">Rate your service provider</h5>
+                                <div class="modal-body">
+                                    <p>On time arrival </p>
+                                    <p>Friendly </p>
+                                    <p>Quality of service</p>
+                                    <p>Feedback on service provider</p>
+                                    <div class="form-floating">
+                                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary export" data-bs-toggle="modal" data-bs-target="#Reschedule">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-row">
+                        <div class="show">Show</div>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary button-dd dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                10
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="#">20</a></li>
+                                <li><a class="dropdown-item" href="#">30</a></li>
+                                <li><a class="dropdown-item" href="#">40</a></li>
+                                <li><a class="dropdown-item" href="#">50</a></li>
+                                <li><a class="dropdown-item" href="#">55</a></li>
+                            </ul>
+                        </div>
+                        <span class="show">entries</span>
+                        <span class="show">Total Record: 55</span>
+                        <div class="d-flex justify-content-end">
+                            <a href="#"><i class="fa fa-step-backward chng-arw"></i></a>
+                            <a href="#"><i class="fa fa-angle-left chng-arw"></i></a>
+                            <span class="chng-num"><a href="#">1</a></span>
+                            <span class="chng-num"><a href="#">2</a></span>
+                            <span class="chng-num"><a href="#">3</a></span>
+                            <span class="chng-num"><a href="#">4</a></span>
+                            <a href="#"><i class="fa fa-angle-right chng-arw"></i></a>
+                            <a href="#"><i class="fa fa-step-forward chng-arw"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-schedule text">
+                    <div class="row">
+                        <div class="col">
+                            <nav>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <button class="nav-link active" id="nav-mydetails-tab" data-bs-toggle="tab"
+                                            data-bs-target="#nav-mydetails" type="button" role="tab"
+                                            aria-controls="nav-mydetails" aria-selected="true">
+                                        My details
+                                    </button>
+                                    <button class="nav-link" id="nav-myaddress-tab" data-bs-toggle="tab"
+                                            data-bs-target="#nav-myaddress" type="button" role="tab"
+                                            aria-controls="nav-myaddress" aria-selected="false">
+                                        My addresses
+                                    </button>
+                                    <button class="nav-link" id="nav-changpass-tab" data-bs-toggle="tab"
+                                            data-bs-target="#nav-changpass" type="button" role="tab"
+                                            aria-controls="nav-changpass" aria-selected="false">
+                                        Change password
+                                    </button>
+                                </div>
+                            </nav>
+                            <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="nav-mydetails" role="tabpanel" aria-labelledby="nav-mydetails-tab">
+                                    <form>
+                                        <div class="row g-3 mt-2">
+                                            <div class="col">
+                                                <label for="First name" class="mb-2">First name</label>
+                                                <input type="text" class="form-control" placeholder="First name" aria-label="First name">
+                                            </div>
+                                            <div class="col">
+                                                <label for="Last name" class="mb-2">Last name</label>
+                                                <input type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+                                            </div>
+                                            <div class="col">
+                                                <label for="E-mail Address" class="mb-2">E-mail Address</label>
+                                                <input type="email" class="form-control" placeholder="email address" aria-label="E-mail Address">
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col">
+                                                <label for="MobileNumber" class="mb-2">Mobile Number</label>
+
+                                                <div class="input-group">
+                                                    <span class="input-group-text" id="inputGroupPrepend2">+91</span>
+                                                    <input type="text" class="form-control" id="MobileNumber" placeholder="Mobile number"
+                                                           aria-describedby="inputGroupPrepend2" required>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <label for="birthday" class="mb-2">Birthday</label>
+                                                <input type="date" id="birthday" name="birthday" class="form-control">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row mt-2">
+                                            <div class="col-lg-4">
+                                                <label for="cars" class="mb-2">My Preferred Language</label>
+                                                <select name="cars" id="cars" class="form-control">
+                                                    <option value="volvo">English</option>
+                                                    <option value="saab">Hindi</option>
+                                                    <option value="opel">Gujarati</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col">
+                                                <button class="export2">Save</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="nav-myaddress" role="tabpanel" aria-labelledby="nav-myaddress-tab">
+                                    <table class="table mt-3">
+                                        <thead>
+                                            <tr class="table-heading">
+                                                <th scope="col">Addresses</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>8485</td>
+                                                <td>
+                                                    <img src="/assets/edit-icon.png" data-bs-target="#editIcon"
+                                                         data-bs-toggle="modal"> <img src="/assets/delete-icon.png">
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>8485</td>
+                                                <td>
+                                                    <img src="/assets/edit-icon.png">
+                                                    <img src="/assets/delete-icon.png">
+                                                </td>
+
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <span class="export2">Add New Address</span>
+                                    <div class="modal fade" id="editIcon" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">
+                                                        Edit Address
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                                                </div>
+                                                <form>
+                                                    <div class="modal-body">
+                                                        <div class="row g-3 mt-2">
+                                                            <div class="col">
+                                                                <label for="Street name" class="mb-2">
+                                                                    Street
+                                                                    name
+                                                                </label>
+                                                                <input type="text" class="form-control" placeholder="Street name"
+                                                                       aria-label="Street name">
+                                                            </div>
+                                                            <div class="col">
+                                                                <label for="House number" class="mb-2">
+                                                                    House
+                                                                    number
+                                                                </label>
+                                                                <input type="number" class="form-control"
+                                                                       placeholder="House number"
+                                                                       aria-label="Last name">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-2">
+                                                            <div class="col">
+                                                                <label for="zip" class="mb-2">Postal Code</label>
+                                                                <input id="zip" class="form-control" name="zip"
+                                                                       type="number" placeholder="Postal code">
+                                                            </div>
+                                                            <div class="col">
+                                                                <label for="City" class="mb-2">City</label>
+                                                                <input type="text" id="City" name="City"
+                                                                       class="form-control" placeholder="City">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mt-2">
+                                                            <div class="col-lg-6">
+                                                                <label for="MobileNumber" class="mb-2">
+                                                                    Mobile
+                                                                    Number
+                                                                </label>
+
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text"
+                                                                          id="inputGroupPrepend2">+91</span>
+                                                                    <input type="text" class="form-control"
+                                                                           id="MobileNumber"
+                                                                           placeholder="Mobile number"
+                                                                           aria-describedby="inputGroupPrepend2"
+                                                                           required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <button class="btn btn-primary editBtn m-3">Edit</button>
+
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-changpass" role="tabpanel"
+                                     aria-labelledby="nav-changpass-tab">
+                                    <form>
+                                        <label for="Old Password" class="mb-2 mt-2">Old Password</label>
+                                        <input class="form-control mb-2" type="password" placeholder="Old Password">
+                                        <label for="New Password" class="mb-2">New Password</label>
+                                        <input class="form-control mb-2" type="password" placeholder="Password">
+                                        <label for="Confirm Password" class="mb-2">Confirm Password</label>
+                                        <input class="form-control mb-2" type="password" placeholder="Confirm Password">
+                                        <button class="export2">Save</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="row1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Service Details </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>05/10/2022</p>
+                    <p>Duration: 3.5 Hrs</p>
+                    <hr>
+                    <p>Service Id: 8485</p>
+                    <p>Extras: Inside Cabinets</p>
+                    <p>Net Amount:</p>
+                    <hr>
+                    <p>Service Address:</p>
+                    <p>Building Address:</p>
+                    <p>Phone:</p>
+                    <p>Email:</p>
+                    <hr>
+                    <p>Comments:</p>
+                    <hr>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary export" data-bs-toggle="modal" data-bs-target="#Reschedule">Reschedule</button>
+                    <button class="btn btn-danger export1" data-bs-toggle="modal" data-bs-target="#Cancle">
+                        Cancelled
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="Reschedule" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reschedule Service Request </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Select New Date & Time</p>
+                    <div class="row">
+                        <div class="col">
+                            <input type="date" class="form-control">
+                        </div>
+                        <div class="col">
+                            <input type="time" placeholder="12:00" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary export m-3">Update</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="Cancle" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cancle Service Request </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Why you want to cancle the service request</p>
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                    </div>
+                </div>
+                <button asp-action="CancelService" asp-controller="Customer" class="btn btn-primary export m-3">Cancle Now</button>
+            </div>
+        </div>
+    </div>
+</section>
+

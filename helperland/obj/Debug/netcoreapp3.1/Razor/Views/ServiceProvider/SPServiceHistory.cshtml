@@ -1,0 +1,165 @@
+﻿@model ServiceProviderViewModel
+
+@{
+    ViewBag.Title = "SP Service History";
+    Layout = "_ServiceProviderLayout";
+    var i = -1;
+    var j = 0;
+}
+
+<!-- SP Service Request-->
+<section class="spServiceRequest">
+    <div class="serviceRequest">
+        <div class="service-history">
+            <div class="upcoming-service-details">
+                <div class="container">
+                    <div id="upcoming-service-menu-table" class="d-flex">
+                        <div class="container-menu">
+                            <div class="navbar">
+                                <ul id="upcoming-service-menu" class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Dashboard</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPServiceRequest">New Service Request</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPUpcomingService">Upcoming Service</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Service Schedule</a>
+                                    </li>
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="#">Service History</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPRatting">My Rattings</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPBlock">Block Customer</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Invoices</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Notifications</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+    
+                        <div class="container-details text-center">
+                            <div class="dropdown text-start mb-2">
+                                <label class="form-label">Payment Status</label>
+                                <select class="patmentdrop">
+                                    <option value="1" selected>All</option>
+                                    <option value="2">Settled</option>
+                                    <option value="3">Unsettled</option>
+                                    <option value="4">Not Applicable</option>
+                                </select>
+                            </div>
+                            <div id="successMsg"></div>
+                            <table id="Data" class="table mb-3">
+                                <thead>
+                                    <tr>
+                                        <th>Service ID</th>
+                                        <th>Service Date</th>
+                                        <th>Customer Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                 
+                                    @if(Model.services != null)
+                                    {
+                                        @foreach(var x in Model.services)
+                                        {
+                                            i += 1;
+                                            <tr id="service" class="service_@i">
+                                                <td>
+                                                    <a data-bs-toggle="modal" data-bs-target="#CustServiceDetails_@i">
+                                                        @x.ServiceId
+                                                    </a>
+                                                </td>
+                                                <td class="table-item-2">
+                                                    <a data-bs-toggle="modal" data-bs-target="#CustServiceDetails_@i">
+                                                        <span>
+                                                            <img src="~/assets/calendar2.png" alt="Sort">
+                                                            <b>@String.Format("{0:dd/MM/yyyy}",x.ServiceStartDate)</b>
+                                                        </span>
+                                                        <br>
+                                                        <span>
+                                                            <img src="~/assets/layer-14.png" alt="Sort">
+                                                            @x.ServiceStartDate.ToString("HH:mm") -
+                                                            @Model.serviceEnd[i].ToString("HH:mm")
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                                <td class="rating">
+                                                    <a data-bs-toggle="modal" data-bs-target="#CustServiceDetails_@i">
+                                                        <div class="rating d-flex">
+                                                            <img class="sp_cu_img" src="~/assets/layer-15.png" alt="Sort">
+                                                            <div class="r-details d-flex flex-column">
+                                                                <p class="mb-1">@Model.custName[i]</p>
+                                                                <p class="mb-1">@Model.addresses[i].AddressLine1 @Model.addresses[i].AddressLine2</p>
+                                                                <p class="mb-0">@Model.addresses[i].PostalCode @Model.addresses[i].City</p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            <div class="CustServiceDetails modal fade text-start" id="CustServiceDetails_@i" data-bs-backdrop="static">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <h4>Service Details</h4>
+                                                            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"><img
+                                                                    src="~/image/close.png"></button>
+                                                            <p class="dateTime">@String.Format("{0:dd/MM/yyyy}",x.ServiceStartDate)
+                                                                @x.ServiceStartDate.ToString("HH:mm") -
+                                                                @Model.serviceEnd[i].ToString("HH:mm")</p>
+                                                            <p><b>Duration:</b> @x.ServiceHours Hrs</p>
+                                                            <hr>
+                                                            <p><b>Service Id:</b> @x.ServiceId</p>
+                                                            <p><b>Extras:</b> @Model.extras[i]</p>
+                                                            <p><b>Total Payment:</b> <span>@x.TotalCost &euro;</span></p>
+                                                            <hr class="mt-1">
+                                                            <p><b>Customer Name:</b> @Model.custName[i]</p>
+                                                            <p><b>Service Address:</b> @Model.addresses[i].AddressLine1 
+                                                                @Model.addresses[i].AddressLine2</p>
+                                                            <p>@Model.addresses[i].City</p>
+                                                            <hr>
+                                                            <p><b>Comments:</b>
+                                                            </p>
+                                                            @if(!x.HasPets)
+                                                            {
+                                                                <p>
+                                                                    <img src="~/assets/not-included.png"> 
+                                                                    I don't have pets at home
+                                                                </p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p> 
+                                                                    I have pets at home
+                                                                </p>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        }
+                                    }
+
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

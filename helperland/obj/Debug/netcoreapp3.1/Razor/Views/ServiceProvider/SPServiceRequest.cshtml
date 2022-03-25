@@ -1,0 +1,249 @@
+﻿@model ServiceProviderViewModel
+
+@{
+    ViewBag.Title = "SP Service Request";
+    Layout = "_ServiceProviderLayout";
+    var i = -1;
+    var j = 0;
+}
+
+<!-- SP Service Request-->
+<section class="spServiceRequest">
+    <div class="serviceRequest">
+        <div class="service-history">
+            <div class="upcoming-service-details">
+                <div class="container">
+                    <div id="upcoming-service-menu-table" class="d-flex">
+                        <div class="container-menu">
+                            <div class="navbar">
+                                <ul id="upcoming-service-menu" class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Dashboard</a>
+                                    </li>
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="#">New Service Request</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPUpcomingService">Upcoming Service</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Service Schedule</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPServiceHistory">Service History</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPRatting">My Rattings</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPBlock">Block Customer</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Invoices</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Notifications</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+    
+                        <div class="container-details text-center">
+                            <div class="pet text-start mb-3">
+                                <input class="form-check-input check-box" asp-for="@Model.IsPet" checked>
+                                <label class="form-check-label check-form" for="flexCheckDefault">
+                                    Include Pet at home
+                                </label>
+                            </div>
+                            <div id="successMsg"></div>
+                            <table id="Data" class="table mb-3">
+                                <thead>
+                                    <tr>
+                                        <th>Service ID</th>
+                                        <th>Service Date</th>
+                                        <th>Customer Details</th>
+                                        <th>Payment</th>
+                                        <th>Time Conflict</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @if(Model.services != null)
+                                    {
+                                        @foreach(var x in Model.services)
+                                        {
+                                            i += 1;
+                                            <tr id="service" class="service_@i">
+                                                <td>
+                                                    <a data-bs-toggle="modal" data-bs-target="#CustServiceDetails_@i">
+                                                        @x.ServiceId
+                                                    </a>
+                                                </td>
+                                                <td class="table-item-2">
+                                                    <a data-bs-toggle="modal" data-bs-target="#CustServiceDetails_@i">
+                                                        <span>
+                                                            <img src="~/assets/calendar2.png" alt="Sort">
+                                                            <b>@String.Format("{0:dd/MM/yyyy}",x.ServiceStartDate)</b>
+                                                        </span>
+                                                        <br>
+                                                        <span>
+                                                            <img src="~/assets/layer-14.png" alt="Sort">
+                                                            @x.ServiceStartDate.ToString("HH:mm") -
+                                                            @Model.serviceEnd[i].ToString("HH:mm")
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                                <td class="rating">
+                                                    <a data-bs-toggle="modal" data-bs-target="#CustServiceDetails_@i">
+                                                        <div class="rating d-flex">
+                                                            <img class="sp_cu_img" src="~/assets/layer-15.png" alt="Sort">
+                                                            <div class="r-details d-flex flex-column">
+                                                                @*<p class="mb-1">@Model.custName[i]</p>
+                                                                <p class="mb-1">@Model.userAddress1 @Model.userAddress2</p>*@
+                                                                                                               
+                                                                @*<p class="mb-0">@Model.addresses[i].PostalCode</p>*@
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a data-bs-toggle="modal" data-bs-target="#CustServiceDetails_@i">
+                                                        <span id="Price">
+                                                            <p class="mb-0">@x.TotalCost &euro;</p>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                                <td></td>
+                                                <td class="button">
+                                                    <p class="pets_@i" id="pets_@x.HasPets" class="d-none"></p>
+                                                    <button class="blue" id="Accept_@x.ServiceRequestId">Accept</button>
+                                                </td>
+                                            </tr>
+
+                                            <div class="CustServiceDetails modal fade text-start" id="CustServiceDetails_@i" data-bs-backdrop="static">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <h4>Service Details</h4>
+                                                            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"><img
+                                                                    src="~/assets/close.png"></button>
+                                                            <p class="dateTime">@String.Format("{0:dd/MM/yyyy}",x.ServiceStartDate)
+                                                                @x.ServiceStartDate.ToString("HH:mm") -
+                                                                @Model.serviceEnd[i].ToString("HH:mm")</p>
+                                                            <p><b>Duration:</b> @x.ServiceHours Hrs</p>
+                                                            <hr>
+                                                            <p><b>Service Id:</b> @x.ServiceId</p>
+                                                            <p><b>Extras:</b> @Model.extras[i]</p>
+                                                            <p><b>Total Payment:</b> <span>@x.TotalCost &euro;</span></p>
+                                                            <hr class="mt-1">
+                                                            <p><b>Customer Name:</b> @Model.custName[i]</p>
+                                                            <p><b>Service Address:</b> @Model.addresses
+                                                                </p>
+                                                            
+                                                            <hr>
+                                                            <p><b>Comments:</b>
+                                                            </p>
+                                                            @if(!x.HasPets)
+                                                            {
+                                                                <p>
+                                                                    <img src="~/assets/not-included.png"> 
+                                                                    I don't have pets at home
+                                                                </p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p> 
+                                                                    I have pets at home
+                                                                </p>
+                                                            }
+                                                            
+                                                            <button type="button" id="Accept_@x.ServiceRequestId" class="green">Accept</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+        $(document).ready(function(){
+            
+            $('#@Html.IdFor(m => m.IsPet)').click(function(){
+                if(!$(this).prop('checked'))
+                {
+                   for(var k=0;k<=@i;k++)
+                   {
+                       var rowId = ".service_"+k;
+                       var id = ".pets_"+k;
+                       var b = $(id).prop('id');
+                       var status = b.split('_')[1];
+                       console.log(status);
+                       if(status == 'True')
+                       {
+                           $(rowId).addClass('d-none');
+                       }
+                   }
+                }
+                else
+                {
+                    for(var k=0;k<=@i;k++)
+                    {
+                        var rowId = ".service_"+k;
+                        var id = ".pets_"+k;
+                        var b = $(id).prop('id');
+                        var status = b.split('_')[1];
+                        if(status == 'True')
+                        {
+                            $(rowId).removeClass('d-none');
+                        }
+                    }
+                }
+            });
+
+            $("[id^='Accept']").click(function(){
+                var a = $(this).prop('id');
+                sId = a.split('_')[1];
+                console.log(sId);
+                let model = {ServiceRequestId : sId}
+                console.log(model);
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("AcceptService","ServiceProvider")',
+                    data: model,
+                    dataType: 'JSON',
+                    success: function (response) {
+                        if(response.success)
+                        {
+                            console.log('Success');
+                            $("[id^='CustServiceDetails_']").modal('hide');
+                            location.reload(true);
+                        }
+                        if(!response.success)
+                        {
+                            $('#successMsg').html(`<div class="alert alert-danger alert-dismissible fade show text-start" role="alert">
+                            You can't accept this service
+                            <button type="submit" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`);
+                        }
+                    }
+                });
+            });
+
+        });
+    </script>
+}

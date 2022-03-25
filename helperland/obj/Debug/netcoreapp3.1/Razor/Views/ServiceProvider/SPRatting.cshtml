@@ -1,0 +1,167 @@
+﻿@model ServiceProviderViewModel
+
+@{
+    ViewBag.Title = "SP Ratting";
+    Layout = "_ServiceProviderLayout";
+    var i = -1;
+    var j = 0;
+}
+
+<!-- SP Service Request-->
+<section class="spRatting">
+    <div class="serviceRequest">
+        <div class="service-history">
+            <div class="upcoming-service-details">
+                <div class="container">
+                    <div id="upcoming-service-menu-table" class="d-flex">
+                        <div class="container-menu">
+                            <div class="navbar">
+                                <ul id="upcoming-service-menu" class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Dashboard</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPServiceRequest">New Service Request</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPUpcomingService">Upcoming Service</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Service Schedule</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPServiceHistory">Service History</a>
+                                    </li>
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="#">My Rattings</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-action="SPBlock">Block Customer</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Invoices</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Notifications</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+    
+                        <div class="container-details text-center">
+                            <div class="dropdown text-start mb-2">
+                                <label class="form-label">Ratting</label>
+                                <select class="patmentdrop">
+                                    <option value="0" selected>All</option>
+                                    <option value="1">Excellent</option>
+                                    <option value="2">Very Good</option>
+                                    <option value="3">Good</option>
+                                    <option value="4">Poor</option>
+                                    <option value="5">Very Poor</option>
+                                </select>
+                            </div>
+                            <div id="successMsg"></div>
+                            <table id="Data" class="table mb-3">
+                                <thead class="d-none">
+                                    <tr>
+                                        <th>Service ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @if(Model.ratings != null)
+                                    {
+                                        foreach(var x in Model.ratings)
+                                        {
+                                            i += 1;
+                                            <tr id="service" class="mb-2">
+                                                <td>
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            <p class="mb-1">@Model.services[i].ServiceId</p>
+                                                            <b>@Model.custName[i]</b>
+                                                        </div>
+                                                        <div>
+                                                            <div class="table-item-2">
+                                                                <span>
+                                                                    <img src="~/image/calendar2.png" alt="Sort">
+                                                                    <b>@String.Format("{0:dd/MM/yyyy}",Model.services[i].ServiceStartDate)</b>
+                                                                </span>
+                                                                <br>
+                                                                <span>
+                                                                    <img src="~/image/layer-14.png" alt="Sort">
+                                                                    @Model.services[i].ServiceStartDate.ToString("HH:mm") -
+                                                                    @Model.serviceEnd[i].ToString("HH:mm")
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div class="rating">
+                                                                <b>Ratting</b>
+                                                                <div class="star d-flex mt-2">
+                                                                    @if(x.Ratings <=1)
+                                                                    {
+                                                                        <img src="~/assets/star1.png" alt="">
+                                                                        <img src="~/assets/star2.png" alt="">
+                                                                        <img src="~/assets/star2.png" alt="">
+                                                                        <img src="~/assets/star2.png" alt="">
+                                                                        <img class="me-2" src="~/assets/star2.png" alt="">
+                                                                    }
+                                                                    @if(x.Ratings <=2 && x.Ratings > 1)
+                                                                    {
+                                                                         <img src="~/assets/star1.png" alt="">
+                                                                        <img src="~/assets/star2.png" alt="">
+                                                                        <img src="~/assets/star2.png" alt="">
+                                                                        <img src="~/assets/star2.png" alt="">
+                                                                        <img class="me-2" src="~/assets/star2.png" alt="">
+                                                                    }
+                                                                    @if(x.Ratings <=3 && x.Ratings > 2)
+                                                                    {
+                                                                         <img src="~/assets/star1.png" alt="">
+                                                                        <img src="~/assets/star2.png" alt="">
+                                                                        <img src="~/assets/star2.png" alt="">
+                                                                        <img src="~/assets/star2.png" alt="">
+                                                                        <img class="me-2" src="~/assets/star2.png" alt="">
+                                                                    }
+                                                                    @if(x.Ratings <=4 && x.Ratings > 3)
+                                                                    {
+                                                                        <img src="~/assets/star1.png" alt="">
+                                                                        <img src="~/assets/star2.png" alt="">
+                                                                        <img src="~/assets/star2.png" alt="">
+                                                                        <img src="~/assets/star2.png" alt="">
+                                                                        <img class="me-2" src="~/assets/star2.png" alt="">
+                                                                    }
+                                                                    @if(x.Ratings <=5 && x.Ratings > 4)
+                                                                    {
+                                                                         <img src="~/assets/star1.png" alt="">
+                                                                        <img src="~/assets/star2.png" alt="">
+                                                                        <img src="~/assets/star2.png" alt="">
+                                                                        <img src="~/assets/star2.png" alt="">
+                                                                        <img class="me-2" src="~/assets/star2.png" alt="">
+                                                                    }
+                                                                    
+                                                                    <p class="mb-0">@Model.ratingRes[i]</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div>
+                                                        <b>Customer Comment</b>
+                                                        <p class="mt-2 mb-0">@x.Comments</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
